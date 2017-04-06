@@ -8,7 +8,7 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  @Input() title: string = 'Pumakatari Project';
+  @Input() title: string = 'Pumakatari';
   @Input() lat: number = -16.536526;
   @Input() lng: number = -68.089496;
   @Input() zoom: number = 16;

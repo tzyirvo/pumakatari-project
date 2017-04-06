@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 //import { AngularFire } from 'angularfire2';
 //import { Subject } from 'rxjs/Subject';
 
@@ -8,9 +8,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title: string = 'My first angular2-google-maps project';
-  lat: number = 51.678418;
-  lng: number = 7.809007;
+  @Input() title: string = 'Pumakatari Project';
+  @Input() lat: number = -16.536526;
+  @Input() lng: number = -68.089496;
+  @Input() zoom: number = 16;
 }
 //https://github.com/angular/angularfire2
 //export class AppComponent {

@@ -5,6 +5,7 @@ import { HttpModule } from '@angular/http';
 import { AngularFireModule } from 'angularfire2';
 import { AppComponent } from './app.component';
 import { FooterComponent } from './footer/footer.component';
+import { AgmCoreModule } from 'angular2-google-maps/core';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,10 @@ import { FooterComponent } from './footer/footer.component';
       messagingSenderId: "147612482308"
     }),
     FormsModule,
-    HttpModule
+    HttpModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyBJ4KQ9Toja55Lqf78LzRDZgEkdBPufSQ8'
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]

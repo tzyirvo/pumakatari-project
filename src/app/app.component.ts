@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { AngularFire } from 'angularfire2';
-import { Subject } from 'rxjs/Subject';
+//import { AngularFire } from 'angularfire2';
+//import { Subject } from 'rxjs/Subject';
 
 @Component({
   selector: 'app-root',
@@ -8,7 +8,9 @@ import { Subject } from 'rxjs/Subject';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app works!';
+  title: string = 'My first angular2-google-maps project';
+  lat: number = 51.678418;
+  lng: number = 7.809007;
 }
 //https://github.com/angular/angularfire2
 //export class AppComponent {

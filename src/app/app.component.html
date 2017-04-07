@@ -4,6 +4,10 @@
     <a class="la-paz-bus-link" target="_blank" href="http://www.lapazbus.bo/">{{title}}</a>
   </div>
 
+  <li *ngFor="let item of items | async">
+    {{ item.nombre }}
+  </li>
+
   <!-- this creates a google map on the page with the given lat/lng from -->
   <!-- the component as the initial center of the map: -->
   <!--https://angular-maps.com/docs/api/latest/ts/core/index/SebmGoogleMap-directive.html-->

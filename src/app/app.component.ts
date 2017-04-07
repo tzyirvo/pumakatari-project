@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-//import { AngularFire } from 'angularfire2';
-//import { Subject } from 'rxjs/Subject';
+import { AngularFire, FirebaseListObservable } from 'angularfire2';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +14,12 @@ export class AppComponent {
   @Input() zoom: number = 16;
   @Input() iconUrl: string = 'assets/images/marker.png';
   @Input() label: string = 'Nombre de la Parada';
+
+  items: FirebaseListObservable<any[]>;
+
+  constructor(af: AngularFire) {
+    this.items = af.database.list(`rutas`);
+  }
 }
 //https://github.com/angular/angularfire2
 //export class AppComponent {

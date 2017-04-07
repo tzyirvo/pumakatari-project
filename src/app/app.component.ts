@@ -12,6 +12,8 @@ export class AppComponent {
   @Input() lat: number = -16.536526;
   @Input() lng: number = -68.089496;
   @Input() zoom: number = 16;
+  @Input() iconUrl: string = 'assets/images/marker.png';
+  @Input() label: string = 'Nombre de la Parada';
 }
 //https://github.com/angular/angularfire2
 //export class AppComponent {

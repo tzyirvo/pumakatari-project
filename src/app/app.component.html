@@ -14,8 +14,13 @@
     [zoom]="zoom">
 
     <sebm-google-map-marker
+      class="sebm-google-map-marker"
       [latitude]="lat"
-      [longitude]="lng">
+      [longitude]="lng"
+      [iconUrl]="iconUrl">
+      <sebm-google-map-info-window [disableAutoPan]="true">
+        {{label}}
+      </sebm-google-map-info-window>
     </sebm-google-map-marker>
 
   </sebm-google-map>

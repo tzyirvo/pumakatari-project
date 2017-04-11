@@ -6,20 +6,18 @@ import { AngularFireModule } from 'angularfire2';
 import { AppComponent } from './app.component';
 import { FooterComponent } from './footer/footer.component';
 import { AgmCoreModule } from 'angular2-google-maps/core';
+import { HeaderComponent } from './header/header.component';
+import { BodyComponent } from './body/body.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    FooterComponent
+    FooterComponent,
+    HeaderComponent,
+    BodyComponent
   ],
   imports: [
     BrowserModule,
-    //AngularFireModule.initializeApp({
-    //  apiKey: "AIzaSyDFbuKX0UeXje-PRAvwIymYo2jk-uGqMa4",
-    //  authDomain: "test-bc800.firebaseapp.com",
-    //  databaseURL: "https://test-bc800.firebaseio.com",
-    //  storageBucket: ""
-    //}),
     AngularFireModule.initializeApp({
       apiKey: "AIzaSyBiyMHD0bwEr3BWtkjaPLG8NqZ4Ht_AEUQ",
       authDomain: "pumakatari-project.firebaseapp.com",

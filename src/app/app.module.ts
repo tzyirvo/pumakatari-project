@@ -8,13 +8,18 @@ import { FooterComponent } from './footer/footer.component';
 import { AgmCoreModule } from 'angular2-google-maps/core';
 import { HeaderComponent } from './header/header.component';
 import { BodyComponent } from './body/body.component';
+//import { AppRoutingModule } from './app-routing/app-routing.module';
+import { SideBarComponent } from './body/components/side-bar/side-bar.component';
+import { ContentComponent } from './body/components/content/content.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     FooterComponent,
     HeaderComponent,
-    BodyComponent
+    BodyComponent,
+    SideBarComponent,
+    ContentComponent
   ],
   imports: [
     BrowserModule,

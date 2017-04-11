@@ -1,5 +1,7 @@
 <div>
 
+  <router-outlet></router-outlet>
+
   <li *ngFor="let item of items | async">
     {{ item.nombre }}
   </li>

@@ -11,6 +11,7 @@ import { BodyComponent } from './body/body.component';
 import { AppRoutingModule } from './app-routing/app-routing.module';
 import { SideBarComponent } from './body/components/side-bar/side-bar.component';
 import { ContentComponent } from './body/components/content/content.component';
+import { InicioComponent } from './body/components/inicio/inicio.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { ContentComponent } from './body/components/content/content.component';
     HeaderComponent,
     BodyComponent,
     SideBarComponent,
-    ContentComponent
+    ContentComponent,
+    InicioComponent
   ],
   imports: [
     BrowserModule,

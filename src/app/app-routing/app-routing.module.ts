@@ -1,8 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
+//import { InicioComponent } from './body/components/inicio/inicio.component';
 
 const appRoutes: Routes = [
+  {
+    path: '',
+    redirectTo: '/inicio',
+    pathMatch: 'full'
+  //},
+  //{
+  //  path: 'inicio',
+  //  component: InicioComponent
+  }
   //{
   //  path: 'landing',
   //  children: [

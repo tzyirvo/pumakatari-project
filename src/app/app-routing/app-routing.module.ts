@@ -14,6 +14,8 @@ import { ParadaMasCercanaComponent } from '../body/components/parada-mas-cercana
 import { ProximoBusComponent } from '../body/components/proximo-bus/proximo-bus.component';
 import { MapaComponent } from '../body/components/mapa/mapa.component';
 import { ContactanosComponent } from '../body/components/contactanos/contactanos.component';
+import { IniciarSesionComponent } from '../body/components/iniciar-sesion/iniciar-sesion.component';
+
 
 const appRoutes: Routes = [
   {
@@ -72,6 +74,10 @@ const appRoutes: Routes = [
   {
     path: 'contactanos',
     component: ContactanosComponent
+  },
+  {
+    path: 'iniciar-sesion',
+    component: IniciarSesionComponent
   }
   //{
   //  path: 'landing',

@@ -24,6 +24,7 @@ import { RutasEliminarComponent } from './body/components/rutas-eliminar/rutas-e
 import { ParadasCrearComponent } from './body/components/paradas-crear/paradas-crear.component';
 import { ParadasModificarComponent } from './body/components/paradas-modificar/paradas-modificar.component';
 import { ParadasEliminarComponent } from './body/components/paradas-eliminar/paradas-eliminar.component';
+import { IniciarSesionComponent } from './body/components/iniciar-sesion/iniciar-sesion.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { ParadasEliminarComponent } from './body/components/paradas-eliminar/par
     RutasEliminarComponent,
     ParadasCrearComponent,
     ParadasModificarComponent,
-    ParadasEliminarComponent
+    ParadasEliminarComponent,
+    IniciarSesionComponent
   ],
   imports: [
     BrowserModule,

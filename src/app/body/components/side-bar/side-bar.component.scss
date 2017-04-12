@@ -1,0 +1,28 @@
+.sidebar-ctn {
+  width: 270px;
+  a {
+    width: 100%;
+    display: block;
+    border: 1px solid #000;
+    border-top: transparent;
+    height: 40px;
+    text-decoration: none;
+    padding-left: 30px;
+    color: #000;
+    font-weight: 700;
+    text-transform: uppercase;
+    background-color: #E5E5E5;
+    line-height: 40px;
+    &:first-child {
+      border-top: 1px solid #000;
+    }
+    &:hover {
+      background-color: rgba(230, 145, 48, 0.63);
+      color: #fff;
+    }
+    &.active {
+      background-color: #e4892d;
+      color: #fff;
+    }
+  }
+}

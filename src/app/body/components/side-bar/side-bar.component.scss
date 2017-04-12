@@ -14,7 +14,7 @@
     text-transform: uppercase;
     background-color: #E5E5E5;
     line-height: 40px;
-    &:first-child {
+    &.first-tab {
       border-top: 1px solid #000;
     }
     &:hover {
@@ -24,6 +24,20 @@
     &.active {
       background-color: #e4892d;
       color: #fff;
+    }
+    &.page-tab-auth {
+      margin-left: 50px;
+      &:hover {
+        background-color: rgba(0, 102, 255, 0.19);
+        color: #000;
+      }
+      &.active {
+        background-color: rgba(0, 102, 255, 1);
+        color: #fff;
+      }
+      &.last-tab {
+        border-bottom: transparent !important;
+      }
     }
   }
 }

@@ -12,6 +12,12 @@ import { AppRoutingModule } from './app-routing/app-routing.module';
 import { SideBarComponent } from './body/components/side-bar/side-bar.component';
 import { ContentComponent } from './body/components/content/content.component';
 import { InicioComponent } from './body/components/inicio/inicio.component';
+import { RutasComponent } from './body/components/rutas/rutas.component';
+import { ParadasComponent } from './body/components/paradas/paradas.component';
+import { ParadaMasCercanaComponent } from './body/components/parada-mas-cercana/parada-mas-cercana.component';
+import { ProximoBusComponent } from './body/components/proximo-bus/proximo-bus.component';
+import { MapaComponent } from './body/components/mapa/mapa.component';
+import { ContactanosComponent } from './body/components/contactanos/contactanos.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +27,13 @@ import { InicioComponent } from './body/components/inicio/inicio.component';
     BodyComponent,
     SideBarComponent,
     ContentComponent,
-    InicioComponent
+    InicioComponent,
+    RutasComponent,
+    ParadasComponent,
+    ParadaMasCercanaComponent,
+    ProximoBusComponent,
+    MapaComponent,
+    ContactanosComponent
   ],
   imports: [
     BrowserModule,

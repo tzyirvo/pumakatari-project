@@ -5,6 +5,7 @@
     display: block;
     border: 1px solid #000;
     border-top: transparent;
+    border-right: transparent;
     height: 40px;
     text-decoration: none;
     padding-left: 30px;
@@ -17,8 +18,8 @@
       border-top: 1px solid #000;
     }
     &:hover {
-      background-color: rgba(230, 145, 48, 0.63);
-      color: #fff;
+      background-color: rgba(230, 145, 48, 0.5);
+      color: #000;
     }
     &.active {
       background-color: #e4892d;

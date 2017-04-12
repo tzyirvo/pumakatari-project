@@ -27,6 +27,7 @@
     }
     &.page-tab-auth {
       margin-left: 50px;
+      text-transform: capitalize;
       &:hover {
         background-color: rgba(0, 102, 255, 0.19);
         color: #000;

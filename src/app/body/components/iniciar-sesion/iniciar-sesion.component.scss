@@ -1,0 +1,15 @@
+.iniciar-sesion {
+  border: 1px solid #000;
+  border-radius: 50px;
+  text-align: center;
+  width: 500px;
+  margin: auto;
+  margin-top: 135px;
+  background-color: #e4892d;
+  padding: 10px;
+  .form-group {
+    span {
+      width: 50px;
+    }
+  }
+}

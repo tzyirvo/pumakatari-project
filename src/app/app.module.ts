@@ -25,6 +25,7 @@ import { ParadasCrearComponent } from './body/components/paradas-crear/paradas-c
 import { ParadasModificarComponent } from './body/components/paradas-modificar/paradas-modificar.component';
 import { ParadasEliminarComponent } from './body/components/paradas-eliminar/paradas-eliminar.component';
 import { IniciarSesionComponent } from './body/components/iniciar-sesion/iniciar-sesion.component';
+import { AF } from "../providers/af";
 
 @NgModule({
   declarations: [
@@ -66,7 +67,7 @@ import { IniciarSesionComponent } from './body/components/iniciar-sesion/iniciar
       apiKey: 'AIzaSyBJ4KQ9Toja55Lqf78LzRDZgEkdBPufSQ8'
     })
   ],
-  providers: [],
+  providers: [AF],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

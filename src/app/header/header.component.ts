@@ -1,4 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
+import {AF} from "../../providers/af";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-header',
@@ -6,19 +8,32 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
+  public error: any;
 
-  @Input() title: string = 'Pumakatari';
-  @Input() loginText: string = 'Iniciar Sesion';
-  @Input() logoutText: string = 'Cerrar Sesion';
-  @Input() username: string = 'Admin';
+  public title: string = 'Pumakatari';
+  public loginText: string = 'Iniciar Sesion';
+  public logoutText: string = 'Cerrar Sesion';
+  public username: string = 'Admin';
+  @Input() isLoggedIn: boolean = false;
 
-  constructor() { }
+  constructor(public afService:AF, private router:Router) {
+  }
 
   ngOnInit() {
   }
 
   logout() {
-    alert('logout of ' + this.username)
+    this.afService.logout().then(() => {
+        console.log('Logout of ' + this.username)
+        this.router.navigate(['inicio']);
+      })
+      .catch((error:any) => {
+        if (error) {
+          this.error = error;
+          console.log(this.error);
+        }
+      });
+
   }
 
 }

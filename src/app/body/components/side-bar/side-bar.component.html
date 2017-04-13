@@ -9,14 +9,17 @@
      routerLinkActive="active">Rutas</a>
 
   <a class="page-tab-auth"
+     *ngIf="isLoggedIn"
      routerLink="crear-rutas"
      routerLinkActive="active">Crear</a>
 
   <a class="page-tab-auth"
+     *ngIf="isLoggedIn"
      routerLink="modificar-rutas"
      routerLinkActive="active">Modificar</a>
 
   <a class="page-tab-auth last-tab"
+     *ngIf="isLoggedIn"
      routerLink="eliminar-rutas"
      routerLinkActive="active">Eliminar</a>
 
@@ -25,16 +28,19 @@
      routerLinkActive="active">Paradas</a>
 
   <a class="page-tab-auth"
-  routerLink="crear-paradas"
-  routerLinkActive="active">Crear</a>
+     *ngIf="isLoggedIn"
+     routerLink="crear-paradas"
+     routerLinkActive="active">Crear</a>
 
   <a class="page-tab-auth"
-  routerLink="modificar-paradas"
-  routerLinkActive="active">Modificar</a>
+     *ngIf="isLoggedIn"
+     routerLink="modificar-paradas"
+     routerLinkActive="active">Modificar</a>
 
   <a class="page-tab-auth last-tab"
-  routerLink="eliminar-paradas"
-  routerLinkActive="active">Eliminar</a>
+     *ngIf="isLoggedIn"
+     routerLink="eliminar-paradas"
+     routerLinkActive="active">Eliminar</a>
 
   <a class="page-tab first-tab"
      routerLink="parada-mas-cercana"

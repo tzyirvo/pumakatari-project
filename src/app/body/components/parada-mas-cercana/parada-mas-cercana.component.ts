@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-parada-mas-cercana',
-  templateUrl: './parada-mas-cercana.component.html',
-  styleUrls: ['./parada-mas-cercana.component.scss']
+  templateUrl: './parada-mas-cercana.component.html'
 })
 export class ParadaMasCercanaComponent implements OnInit {
 

@@ -4,8 +4,7 @@ import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-iniciar-sesion',
-  templateUrl: './iniciar-sesion.component.html',
-  styleUrls: ['./iniciar-sesion.component.scss']
+  templateUrl: './iniciar-sesion.component.html'
 })
 export class IniciarSesionComponent implements OnInit {
   public error: any;

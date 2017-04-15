@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-rutas-modificar',
-  templateUrl: './rutas-modificar.component.html',
-  styleUrls: ['./rutas-modificar.component.scss']
+  templateUrl: './rutas-modificar.component.html'
 })
 export class RutasModificarComponent implements OnInit {
 

@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-rutas',
-  templateUrl: './rutas.component.html',
-  styleUrls: ['./rutas.component.scss']
+  templateUrl: './rutas.component.html'
 })
 export class RutasComponent implements OnInit {
 

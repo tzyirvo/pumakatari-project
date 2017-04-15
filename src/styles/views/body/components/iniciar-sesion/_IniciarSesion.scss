@@ -8,8 +8,12 @@
   background-color: #e4892d;
   padding: 10px;
   .form-group {
+    margin-bottom: 10px;
     span {
       width: 50px;
     }
+  }
+  .btn {
+    //@extend .pk-button;
   }
 }

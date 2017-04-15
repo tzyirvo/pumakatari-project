@@ -6,11 +6,11 @@
 
   <div class="login-ctn">
     <span *ngIf="isLoggedIn" class="username">{{ username }}</span>
-    <a class="login"
+    <a class="pk-button"
        [hidden]="isLoggedIn"
        routerLink="iniciar-sesion"
        routerLinkActive="active">{{ loginText }}</a>
-    <a class="login"
+    <a class="pk-button"
        *ngIf="isLoggedIn"
        (click)="logout()">{{ logoutText }}</a>
   </div>

@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-proximo-bus',
-  templateUrl: './proximo-bus.component.html',
-  styleUrls: ['./proximo-bus.component.scss']
+  templateUrl: './proximo-bus.component.html'
 })
 export class ProximoBusComponent implements OnInit {
 

@@ -7,13 +7,18 @@
   margin-top: 135px;
   background-color: #e4892d;
   padding: 10px;
-  .form-group {
-    margin-bottom: 10px;
-    span {
-      width: 50px;
-    }
+  h2 {
+    text-transform: uppercase;
   }
-  .btn {
-    //@extend .pk-button;
+  .form-group {
+    @extend .hbox;
+    margin-bottom: 10px;
+    width: 160px;
+    span {
+      width: 100%;
+      min-width: 215px;
+      text-align: right;
+      padding-right: 10px;
+    }
   }
 }

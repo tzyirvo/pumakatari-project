@@ -1,6 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {AF} from "../../providers/af";
 import {Router} from "@angular/router";
+import * as fromRoot from '../reducers/';
+import { Observable } from 'rxjs/Observable';
+import { Store } from '@ngrx/store';
+import * as user from '../actions/user.action';
 
 @Component({
   selector: 'app-header',
@@ -12,10 +16,14 @@ export class HeaderComponent implements OnInit {
   public title: string = 'Pumakatari';
   public loginText: string = 'Iniciar Sesion';
   public logoutText: string = 'Cerrar Sesion';
-  public username: string = 'Admin';
-  @Input() isLoggedIn: boolean = false;
+  public username: Observable<string>;
+  public isLoggedIn: Observable<boolean>;
+  public isNotLoggedIn: Observable<boolean>;
 
-  constructor(public afService:AF, private router:Router) {
+  constructor(public afService:AF, private router:Router, private store: Store<fromRoot.State>) {
+    this.username = this.store.select(fromRoot.getUserEmail);
+    this.isLoggedIn = this.store.select(fromRoot.isUserLoggedIn);
+    this.isNotLoggedIn = this.store.select(fromRoot.isNotUserLoggedIn);
   }
 
   ngOnInit() {
@@ -23,7 +31,7 @@ export class HeaderComponent implements OnInit {
 
   logout() {
     this.afService.logout().then(() => {
-        console.log('Logout of ' + this.username)
+        this.store.dispatch(new user.LogOut())
         this.router.navigate(['inicio']);
       })
       .catch((error:any) => {

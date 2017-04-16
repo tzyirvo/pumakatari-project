@@ -1,4 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import * as fromRoot from '../../../reducers/';
+import { Observable } from 'rxjs/Observable';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-side-bar',
@@ -6,9 +9,11 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class SideBarComponent implements OnInit {
 
-  @Input() isLoggedIn: boolean = false;
+  public isLoggedIn: Observable<boolean>;
 
-  constructor() { }
+  constructor(private store: Store<fromRoot.State>) {
+    this.isLoggedIn = this.store.select(fromRoot.isUserLoggedIn);
+  }
 
   ngOnInit() {
   }

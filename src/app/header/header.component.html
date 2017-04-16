@@ -5,13 +5,13 @@
   <a class="la-paz-bus-link" target="_blank" href="http://www.lapazbus.bo/">{{ title }}</a>
 
   <div class="login-ctn">
-    <span *ngIf="isLoggedIn" class="username">{{ username }}</span>
+    <span *ngIf="isLoggedIn" class="username">{{ username | async }}</span>
     <a class="pk-button"
-       [hidden]="isLoggedIn"
+       *ngIf="isNotLoggedIn | async"
        routerLink="iniciar-sesion"
        routerLinkActive="active">{{ loginText }}</a>
     <a class="pk-button"
-       *ngIf="isLoggedIn"
+       *ngIf="isLoggedIn | async"
        (click)="logout()">{{ logoutText }}</a>
   </div>
 

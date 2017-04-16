@@ -26,6 +26,8 @@ import { ParadasModificarComponent } from './body/components/paradas-modificar/p
 import { ParadasEliminarComponent } from './body/components/paradas-eliminar/paradas-eliminar.component';
 import { IniciarSesionComponent } from './body/components/iniciar-sesion/iniciar-sesion.component';
 import { AF } from "../providers/af";
+import { StoreModule } from '@ngrx/store';
+import { reducer } from './reducers/';
 
 @NgModule({
   declarations: [
@@ -52,6 +54,7 @@ import { AF } from "../providers/af";
   ],
   imports: [
     BrowserModule,
+    StoreModule.provideStore(reducer),
     AppRoutingModule,
     AngularFireModule.initializeApp({
       apiKey: "AIzaSyBiyMHD0bwEr3BWtkjaPLG8NqZ4Ht_AEUQ",

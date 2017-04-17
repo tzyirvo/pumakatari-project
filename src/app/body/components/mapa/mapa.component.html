@@ -1,3 +1,26 @@
-<p>
-  mapa works!
-</p>
+<div class="vbox">
+  <h1 class="section-title">Mapa</h1>
+  <div>
+    <!-- this creates a google map on the page with the given lat/lng from -->
+    <!-- the component as the initial center of the map: -->
+    <!--https://angular-maps.com/docs/api/latest/ts/core/index/SebmGoogleMap-directive.html-->
+    <!--or use this? https://www.npmjs.com/package/ng2-ui-->
+    <sebm-google-map
+      [latitude]="lat"
+      [longitude]="lng"
+      [zoom]="zoom">
+
+      <sebm-google-map-marker
+        class="sebm-google-map-marker"
+        [latitude]="lat"
+        [longitude]="lng"
+        [iconUrl]="iconUrl">
+        <sebm-google-map-info-window [disableAutoPan]="true">
+          {{ label }}
+        </sebm-google-map-info-window>
+      </sebm-google-map-marker>
+
+    </sebm-google-map>
+  </div>
+
+</div>

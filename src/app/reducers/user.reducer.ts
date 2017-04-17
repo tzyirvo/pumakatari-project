@@ -6,10 +6,17 @@ export interface State {
   email: string;
 }
 
+//const initialState:State = {
+//  isUserLoggedIn: false,
+//  isNotUserLoggedIn: true,
+//  email: ''
+//};
+
+// @TODO: Hardcoding this only for testing purposes, this needs to be reverted
 const initialState:State = {
-  isUserLoggedIn: false,
-  isNotUserLoggedIn: true,
-  email: ''
+  isUserLoggedIn: true,
+  isNotUserLoggedIn: false,
+  email: 'admin@admin.com'
 };
 
 export function reducer(state = initialState, action:any):State {

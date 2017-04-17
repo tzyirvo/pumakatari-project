@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AngularFire, FirebaseListObservable } from 'angularfire2';
 import { Subject } from 'rxjs/Subject';
 
@@ -7,12 +7,6 @@ import { Subject } from 'rxjs/Subject';
   templateUrl: './inicio.component.html'
 })
 export class InicioComponent implements OnInit {
-
-  @Input() lat: number = -16.536526;
-  @Input() lng: number = -68.089496;
-  @Input() zoom: number = 16;
-  @Input() iconUrl: string = 'assets/images/marker.png';
-  @Input() label: string = 'Nombre de la Parada';
 
   items: FirebaseListObservable<any[]>;
 

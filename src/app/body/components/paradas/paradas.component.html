@@ -1,7 +1,36 @@
 <div class="vbox">
   <h1 class="section-title">Paradas</h1>
   <div class="hbox">
-    <select></select>
-    <span>map</span>
+    <select
+      name="stops"
+      (change)="onSelectStop($event, option.value)"
+      [value]="stop$.$key | async">
+      <option [value]="undefined" disabled selected value> -- Seleccionar Parada -- </option>
+      <option #option *ngFor="let item of (stops$ | async)" [value]="item.$key">
+        {{ item.nombre }}
+      </option>
+    </select>
   </div>
+
+  <span>{{ stop$.lat | async }}</span>
+  <!--<span>{{ stop.nombre | async }}</span>-->
+  <!--<span>{{ stop.lat | async }}</span>-->
+  <!--<span>{{ stop.lng | async }}</span>-->
+
+  <!--<sebm-google-map-->
+    <!--[latitude]="stop.lat | async"-->
+    <!--[longitude]="stop.lng | async"-->
+    <!--[zoom]="16">-->
+
+    <!--<sebm-google-map-marker-->
+      <!--class="sebm-google-map-marker"-->
+      <!--[latitude]="stop.lat | async"-->
+      <!--[longitude]="stop.lng | async"-->
+      <!--[iconUrl]="iconUrl">-->
+      <!--<sebm-google-map-info-window [disableAutoPan]="true">-->
+        <!--{{ stop.nombre | async }}-->
+      <!--</sebm-google-map-info-window>-->
+    <!--</sebm-google-map-marker>-->
+
+  <!--</sebm-google-map>-->
 </div>

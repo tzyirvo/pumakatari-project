@@ -55,6 +55,7 @@
      routerLinkActive="active">Mapa</a>
 
   <a class="page-tab"
+     *ngIf="isNotLoggedIn | async"
      routerLink="contactanos"
      routerLinkActive="active">Contactanos</a>
 

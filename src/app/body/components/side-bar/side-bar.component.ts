@@ -10,9 +10,11 @@ import { Store } from '@ngrx/store';
 export class SideBarComponent implements OnInit {
 
   public isLoggedIn: Observable<boolean>;
+  public isNotLoggedIn: Observable<boolean>;
 
   constructor(private store: Store<fromRoot.State>) {
     this.isLoggedIn = this.store.select(fromRoot.isUserLoggedIn);
+    this.isNotLoggedIn = this.store.select(fromRoot.isNotUserLoggedIn);
   }
 
   ngOnInit() {

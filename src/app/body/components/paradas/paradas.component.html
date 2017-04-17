@@ -3,16 +3,16 @@
   <div class="hbox">
     <select
       name="stops"
-      (change)="onSelectStop($event, option.value)"
-      [value]="stop$.$key | async">
-      <option [value]="undefined" disabled selected value> -- Seleccionar Parada -- </option>
-      <option #option *ngFor="let item of (stops$ | async)" [value]="item.$key">
+      class="pk-combobox"
+      (change)="updateStop($event.target.value)">
+      <option [value]="" disabled selected hidden> -- Seleccionar Parada -- </option>
+      <option *ngFor="let item of (stops$ | async)" [value]="item.$key">
         {{ item.nombre }}
       </option>
     </select>
   </div>
 
-  <span>{{ stop$.lat | async }}</span>
+  <span>{{ stop$ | async }}</span>
   <!--<span>{{ stop.nombre | async }}</span>-->
   <!--<span>{{ stop.lat | async }}</span>-->
   <!--<span>{{ stop.lng | async }}</span>-->

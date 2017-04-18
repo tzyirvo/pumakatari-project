@@ -1,6 +1,36 @@
 <div class="vbox">
   <h1 class="section-title">Rutas</h1>
   <div class="hbox">
-
+    <select
+      name="routes"
+      class="pk-combobox routes-combo"
+      (change)="updateRoute($event.target.value)">
+      <option [value]="" disabled selected hidden> -- Seleccionar Ruta -- </option>
+      <option *ngFor="let item of (routes$ | async)" [value]="item.$key">
+        {{ item.nombre }}
+      </option>
+    </select>
   </div>
+
+  <div *ngIf="firstStop$ | async"
+       class="map-container">
+    <sebm-google-map
+      [latitude]="convertStringToNumber((firstStop$ | async)?.lat)"
+      [longitude]="convertStringToNumber((firstStop$ | async)?.lng)"
+      [zoom]="14">
+
+      <sebm-google-map-marker
+        *ngFor="let item of (routes$ | async)"
+        class="sebm-google-map-marker"
+        [latitude]="convertStringToNumber(item.lat | async)"
+        [longitude]="convertStringToNumber(item.lng | async)"
+        [iconUrl]="iconUrl">
+        <!--<sebm-google-map-info-window [disableAutoPan]="true">-->
+          <!--{{ item.nombre | async }}-->
+        <!--</sebm-google-map-info-window>-->
+      </sebm-google-map-marker>
+
+    </sebm-google-map>
+  </div>
+
 </div>

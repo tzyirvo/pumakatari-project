@@ -8,17 +8,13 @@ import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'a
 })
 export class ParadasComponent implements OnInit {
 
-  public lat: number = -16.536526;
-  public lng: number = -68.089496;
   public iconUrl: string = 'assets/images/marker.png';
 
   stops$: FirebaseListObservable<any[]>;
   stop$: FirebaseObjectObservable<any>;
 
   constructor(public af: AngularFire) {
-    //let firstStop: string = '3Viejas'
     this.stops$ = af.database.list(`paradas`)
-    //this.updateStop(firstStop)
   }
 
   updateStop(stop: string) {

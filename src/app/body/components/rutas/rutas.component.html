@@ -20,14 +20,14 @@
       [zoom]="14">
 
       <sebm-google-map-marker
-        *ngFor="let item of (routes$ | async)"
+        *ngFor="let item$ of (stops$ | async)"
         class="sebm-google-map-marker"
-        [latitude]="convertStringToNumber(item.lat | async)"
-        [longitude]="convertStringToNumber(item.lng | async)"
+        [latitude]="convertStringToNumber((item$ | async)?.lat)"
+        [longitude]="convertStringToNumber((item$ | async)?.lng)"
         [iconUrl]="iconUrl">
-        <!--<sebm-google-map-info-window [disableAutoPan]="true">-->
-          <!--{{ item.nombre | async }}-->
-        <!--</sebm-google-map-info-window>-->
+        <sebm-google-map-info-window [disableAutoPan]="true">
+          {{ (item$ | async)?.nombre }}
+        </sebm-google-map-info-window>
       </sebm-google-map-marker>
 
     </sebm-google-map>

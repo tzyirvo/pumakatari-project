@@ -8,18 +8,17 @@ import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'a
 })
 export class ParadasComponent implements OnInit {
 
-  //@Input() lat: number = -16.536526;
-  //@Input() lng: number = -68.089496;
+  public lat: number = -16.536526;
+  public lng: number = -68.089496;
   public iconUrl: string = 'assets/images/marker.png';
-  //@Input() label: string = 'Nombre de la Parada';
 
   stops$: FirebaseListObservable<any[]>;
   stop$: FirebaseObjectObservable<any>;
 
   constructor(public af: AngularFire) {
-    let firstStop: string = '3Viejas'
+    //let firstStop: string = '3Viejas'
     this.stops$ = af.database.list(`paradas`)
-    this.updateStop(firstStop)
+    //this.updateStop(firstStop)
   }
 
   updateStop(stop: string) {
@@ -28,6 +27,10 @@ export class ParadasComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  private convertStringToNumber(value: string): number {
+    return +value;
   }
 
 }

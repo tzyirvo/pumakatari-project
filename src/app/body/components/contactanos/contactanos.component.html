@@ -1,6 +1,20 @@
 <div class="vbox">
   <h1 class="section-title">Contactanos</h1>
-  <div class="hbox">
-
+  <div class="contactanos">
+    <form (submit)="sendMessage($event, name.value, email.value, message.value)">
+      <div class="form-group">
+        <span for="name">Nombre</span>
+        <input #name type="text" class="pk-input form-control" id="name" required>
+      </div>
+      <div class="form-group">
+        <span for="email">Email</span>
+        <input #email type="text" class="pk-input form-control" id="email" required>
+      </div>
+      <div class="form-group">
+        <span for="mensaje">Mensaje</span>
+        <textarea #message class="pk-textarea" required></textarea>
+      </div>
+      <button type="submit" class="pk-button">Enviar</button>
+    </form>
   </div>
 </div>

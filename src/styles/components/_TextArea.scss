@@ -1,0 +1,6 @@
+.pk-textarea {
+  @extend .pk-input;
+  min-width: 168px;
+  max-width: 168px;
+  min-height: 120px;
+}

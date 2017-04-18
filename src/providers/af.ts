@@ -1,5 +1,6 @@
 import {Injectable} from "@angular/core";
 import {AngularFire, AuthProviders, AuthMethods} from 'angularfire2';
+import { DatePipe } from '@angular/common';
 
 @Injectable()
 export class AF {
@@ -68,4 +69,22 @@ export class AF {
         method: AuthMethods.Password,
       });
   }
+
+  /**
+   * @param {String} name
+   * @param {String} email
+   * @param {String} message
+   * @returns {firebase.Promise<void>}
+   */
+  addNewMessage(name, email, message) {
+    var datePipe = new DatePipe('es-BO');
+    return this.af.database.list(`mensajes`).push({
+      nombre: name,
+      email: email,
+      mensaje: message,
+      leido: false,
+      fecha: datePipe.transform(Date.now(), 'dd-MM-yyyy hh:mm:ss')
+    })
+  }
+
 }

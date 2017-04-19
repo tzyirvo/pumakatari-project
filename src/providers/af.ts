@@ -87,4 +87,12 @@ export class AF {
     })
   }
 
+  deleteStop(stop) {
+    return this.af.database.object(`paradas/${stop}`).remove()
+  }
+
+  deleteRoute(route) {
+    return this.af.database.object(`rutas/${route}`).remove()
+  }
+
 }

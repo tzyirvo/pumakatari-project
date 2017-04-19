@@ -1,6 +1,16 @@
 <div class="vbox">
   <h1 class="section-title">Eliminar Ruta</h1>
-  <div class="hbox">
-
+  <div class="remove-route-ctn">
+    <select
+      name="routes"
+      class="pk-combobox stops-combo"
+      (change)="setRouteToDeleteKey($event.target.value)">
+      <option [value]="" disabled selected hidden> -- Seleccionar Ruta a Eliminar -- </option>
+      <option *ngFor="let item of (routes$ | async)" [value]="item.$key">
+        {{ item.nombre }}
+      </option>
+    </select>
+    <button (click)="deleteRoute()" class="pk-button">Eliminar Ruta</button>
   </div>
+
 </div>

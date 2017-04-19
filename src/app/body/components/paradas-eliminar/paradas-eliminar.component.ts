@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
+import {AF} from "../../../../providers/af";
 
 @Component({
   selector: 'app-paradas-eliminar',
@@ -6,9 +9,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ParadasEliminarComponent implements OnInit {
 
-  constructor() { }
+  stops$: FirebaseListObservable<any[]>
+  stopToDeleteKey: string = ''
+
+  constructor(public af: AngularFire, public afService:AF) {
+    this.stops$ = af.database.list(`paradas`)
+  }
 
   ngOnInit() {
+  }
+
+  setStopToDeleteKey(stopToDeleteKey) {
+    this.stopToDeleteKey = stopToDeleteKey
+  }
+
+  deleteStop() {
+    if (this.stopToDeleteKey !== '') {
+      this.afService.deleteStop(this.stopToDeleteKey)
+    }
   }
 
 }

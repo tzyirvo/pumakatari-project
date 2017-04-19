@@ -1,6 +1,16 @@
 <div class="vbox">
   <h1 class="section-title">Eliminar Parada</h1>
-  <div class="hbox">
-
+  <div class="remove-stop-ctn">
+    <select
+      name="stops"
+      class="pk-combobox stops-combo"
+      (change)="setStopToDeleteKey($event.target.value)">
+      <option [value]="" disabled selected hidden> -- Seleccionar Parada a Eliminar -- </option>
+      <option *ngFor="let item of (stops$ | async)" [value]="item.$key">
+        {{ item.nombre }}
+      </option>
+    </select>
+    <button (click)="deleteStop()" class="pk-button">Eliminar Parada</button>
   </div>
+
 </div>

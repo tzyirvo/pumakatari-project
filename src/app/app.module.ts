@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, ModuleWithProviders } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { AngularFireModule } from 'angularfire2';
@@ -28,6 +28,7 @@ import { IniciarSesionComponent } from './body/components/iniciar-sesion/iniciar
 import { AF } from "../providers/af";
 import { StoreModule } from '@ngrx/store';
 import { reducer } from './reducers/';
+import { NguiMapModule} from '@ngui/map';
 
 @NgModule({
   declarations: [
@@ -65,6 +66,7 @@ import { reducer } from './reducers/';
       messagingSenderId: "147612482308"
     }),
     FormsModule,
+    NguiMapModule.forRoot({apiUrl: 'https://maps.google.com/maps/api/js?key=AIzaSyBJ4KQ9Toja55Lqf78LzRDZgEkdBPufSQ8&sensor=false&libraries=drawing'}),
     HttpModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyBJ4KQ9Toja55Lqf78LzRDZgEkdBPufSQ8'

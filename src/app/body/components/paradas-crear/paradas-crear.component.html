@@ -1,6 +1,15 @@
 <div class="vbox">
   <h1 class="section-title">Crear Parada</h1>
-  <div class="hbox">
-
-  </div>
+  <ngui-map zoom="16" center="-34.397, 150.644">
+    <drawing-manager
+      [drawingMode]="'marker'"
+      [drawingControl]="true"
+      [drawingControlOptions]="{
+        position: 2,
+        drawingModes: ['marker', 'circle', 'polygon', 'polyline', 'rectangle']
+       }"
+    ></drawing-manager>
+  </ngui-map>
+  selectedOverlay: {{selectedOverlay}} <br/>
+  <button (click)="saveStop()">Crear Parada</button>
 </div>

@@ -87,10 +87,18 @@ export class AF {
     })
   }
 
+  /**
+   * @param {String} stop
+   * @returns {firebase.Promise<void>}
+   */
   deleteStop(stop) {
     return this.af.database.object(`paradas/${stop}`).remove()
   }
 
+  /**
+   * @param {String} route
+   * @returns {firebase.Promise<void>}
+   */
   deleteRoute(route) {
     return this.af.database.object(`rutas/${route}`).remove()
   }

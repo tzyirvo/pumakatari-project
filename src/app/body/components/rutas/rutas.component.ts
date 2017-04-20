@@ -9,11 +9,17 @@ import "rxjs/add/operator/map";
 })
 export class RutasComponent implements OnInit {
 
-  public iconUrl: string = 'assets/images/marker.png';
+  //public iconUrl: string = 'assets/images/marker.png';
 
   routes$: FirebaseListObservable<any[]>;
-  stops$: FirebaseListObservable<any[]>;
-  firstStop$: FirebaseObjectObservable<any>;
+  //stops$: FirebaseListObservable<any[]>;
+  //firstStop$: FirebaseObjectObservable<any>;
+  public firstStop: boolean = false
+
+  public positions: any = []
+  public center: any = "-16.500393,-68.123077"
+  public zoom: any = 14
+  public icon: string = "assets/images/marker.png"
 
   constructor(public af: AngularFire) {
     this.routes$ = af.database.list(`rutas`)
@@ -21,23 +27,20 @@ export class RutasComponent implements OnInit {
   }
 
   updateRoute(route: string) {
-    this.updateFirstStop(route)
-
-    this.stops$ = this.af.database.list(`rutas/${route}/paradas`)
-      .map((paradas) => {
-        return paradas.map(parada => {
-          parada =  this.af.database.object(`paradas/` + parada.$value)
-          return parada
+    this.firstStop = false
+    this.positions = []
+    this.af.database.list(`rutas/${route}/paradas`)
+      .subscribe(paradas => {
+        paradas.map(parada => {
+          this.af.database.object(`paradas/` + parada.$value).subscribe(stop => {
+            this.positions.push([stop.lat, stop.lng])
+            if (!this.firstStop) {
+              this.firstStop = true
+              this.center = '' + stop.lat + ',' + stop.lng
+            }
+          })
         })
-      }) as FirebaseListObservable<any[]>
-    this.stops$.subscribe(console.log)
-  }
-
-  updateFirstStop(route: string) {
-    this.af.database.object(`rutas/${route}/paradas`).subscribe(stops => {
-      this.firstStop$ = this.af.database.object(`paradas/` + stops[0])
-      this.firstStop$.subscribe(console.log)
-    })
+      })
   }
 
   ngOnInit() {

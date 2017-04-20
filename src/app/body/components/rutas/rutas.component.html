@@ -12,32 +12,13 @@
     </select>
   </div>
 
-  <div *ngIf="firstStop$ | async"
-       class="map-container">
-    <sebm-google-map
-      [latitude]="convertStringToNumber((firstStop$ | async)?.lat)"
-      [longitude]="convertStringToNumber((firstStop$ | async)?.lng)"
-      [zoom]="14">
-
-      <sebm-google-map-marker
-        *ngFor="let item$ of (stops$ | async)"
-        class="sebm-google-map-marker"
-        [latitude]="convertStringToNumber((item$ | async)?.lat)"
-        [longitude]="convertStringToNumber((item$ | async)?.lng)"
-        [iconUrl]="iconUrl">
-        <sebm-google-map-info-window [disableAutoPan]="true">
-          {{ (item$ | async)?.nombre }}
-        </sebm-google-map-info-window>
-      </sebm-google-map-marker>
-
-      <!--<sebm-google-map-polyline [geodesic]="true" [strokeColor]="'#FF0000'" [strokeOpacity]="0.4">-->
-        <!--<sebm-google-map-polyline-point [latitude]="latA" [longitude]="lngA">-->
-        <!--</sebm-google-map-polyline-point>-->
-        <!--<sebm-google-map-polyline-point [latitude]="latB" [longitude]="lngB">-->
-        <!--</sebm-google-map-polyline-point>-->
-      <!--</sebm-google-map-polyline>-->
-
-    </sebm-google-map>
+  <div class="map-container">
+    <ngui-map [zoom]="zoom" [center]="center">
+      <marker *ngFor="let pos of positions"
+              [position]="pos"
+              [icon]="icon">
+      </marker>
+    </ngui-map>
   </div>
 
 </div>

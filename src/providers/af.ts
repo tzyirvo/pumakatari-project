@@ -104,7 +104,6 @@ export class AF {
   }
 
   /**
-   *
    * @param name
    * @param lat
    * @param lng
@@ -115,6 +114,20 @@ export class AF {
       nombre: name,
       lat: lat,
       lng: lng
+    })
+  }
+
+  /**
+   * @param name
+   * @param lat
+   * @param lng
+   * @returns {firebase.Promise<void>}
+   */
+  modifyStop(stop) {
+    return this.af.database.object(`paradas/${stop.key}`).set({
+      nombre: stop.nombre,
+      lat: stop.lat,
+      lng: stop.lng
     })
   }
 

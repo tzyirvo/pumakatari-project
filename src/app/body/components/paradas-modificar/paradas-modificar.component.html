@@ -1,6 +1,41 @@
 <div class="vbox">
   <h1 class="section-title">Modificar Parada</h1>
-  <div class="hbox">
 
-  </div>
+  <form (submit)="modifyStop($event)">
+    <div class="form-group create-stop-form">
+      <select
+        name="stops"
+        class="pk-combobox stops-combo"
+        (change)="updateStop($event,$event.target.value)">
+        <option [value]="" disabled selected hidden> -- Seleccionar Parada -- </option>
+        <option *ngFor="let item of (stops$ | async)" [value]="item.$key">
+          {{ item.nombre }}
+        </option>
+      </select>
+      <button type="submit" class="pk-button">Modificar Parada</button>
+    </div>
+    <div class="map-container">
+      <ngui-map [zoom]="zoom" [center]="curCenter">
+        <drawing-manager
+          [drawingMode]="''"
+          [drawingControl]="false"
+          [drawingControlOptions]="{
+            position: 1,
+            drawingModes: []
+          }"
+          [markerOptions]="{
+            icon: 'assets/images/marker.png',
+            draggable: true
+          }">
+        </drawing-manager>
+        <marker *ngFor="let pos of positions"
+                [position]="pos"
+                [draggable]="true"
+                [icon]="icon" (dragend)="onDragEnd($event)">
+        </marker>
+      </ngui-map>
+    </div>
+
+  </form>
+
 </div>

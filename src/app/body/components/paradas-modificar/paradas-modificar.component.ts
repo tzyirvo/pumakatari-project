@@ -1,14 +1,81 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
+//noinspection TypeScriptCheckImport
+import {AF} from "../../../../providers/af";
+import { Observable } from 'rxjs/Observable';
+import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 
 @Component({
   selector: 'app-paradas-modificar',
   templateUrl: './paradas-modificar.component.html'
 })
 export class ParadasModificarComponent implements OnInit {
+  public error: any
+  stops$: FirebaseListObservable<any[]>
+  public positions: any = []
+  public stop: any = null
+  public icon: string = "assets/images/marker.png"
+  public curCenter: any = "-16.500393,-68.123077"
+  public zoom: any = 14
 
-  constructor() { }
+  constructor(public afService:AF, public af: AngularFire) {
+    this.stops$ = af.database.list(`paradas`)
+  }
 
-  ngOnInit() {
+  ngOnInit() { }
+
+  updateStop(event, key) {
+    this.af.database.object(`paradas/${key}`).subscribe(stop => {
+      this.stop = {
+        key: stop.$key,
+        lat: stop.lat,
+        lng: stop.lng,
+        nombre: stop.nombre
+      }
+      console.log(this.stop)
+      this.curCenter = '' + stop.lat + ',' + stop.lng
+      this.positions = [[stop.lat, stop.lng]]
+      this.zoom = 18
+    })
+  }
+
+  onDragEnd(event) {
+    this.stop.lat = event.latLng.lat()
+    this.stop.lng = event.latLng.lng()
+    console.log(this.stop)
+  }
+
+  modifyStop(event) {
+    console.log('modify stop!')
+    if (this.stop) {
+      this.resetValues()
+      this.afService.modifyStop(this.stop).then(() => {
+        this.resetValues()
+        console.log('bus stop modified!', 'stop key:', this.stop.key)
+        this.setSuccessMsg()
+      }).catch((error:any) => {
+        if (error) {
+          this.error = error;
+          console.log(this.error);
+          this.setErrorMsg()
+        }
+      })
+    } else {
+      alert('Seleccionar una parada a modificar primero')
+    }
+  }
+
+  setErrorMsg() {
+    //@TODO
+  }
+
+  setSuccessMsg() {
+    //@TODO
+  }
+
+  resetValues() {
+    this.curCenter = "-16.500393,-68.123077"
+    this.positions = []
+    this.zoom = 14
   }
 
 }

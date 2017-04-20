@@ -12,24 +12,15 @@
     </select>
   </div>
 
-  <div *ngIf="stop$ | async"
-    class="map-container">
-    <sebm-google-map
-      [latitude]="convertStringToNumber((stop$ | async)?.lat)"
-      [longitude]="convertStringToNumber((stop$ | async)?.lng)"
-      [zoom]="16">
+  <div class="map-container">
 
-      <sebm-google-map-marker
-        class="sebm-google-map-marker"
-        [latitude]="convertStringToNumber((stop$ | async)?.lat)"
-        [longitude]="convertStringToNumber((stop$ | async)?.lng)"
-        [iconUrl]="iconUrl">
-        <sebm-google-map-info-window [disableAutoPan]="true">
-          {{ (stop$ | async)?.nombre }}
-        </sebm-google-map-info-window>
-      </sebm-google-map-marker>
+    <ngui-map [zoom]="zoom" [center]="center">
+      <marker *ngFor="let pos of positions"
+              [position]="pos"
+              [icon]="icon">
+      </marker>
+    </ngui-map>
 
-    </sebm-google-map>
   </div>
 
 </div>

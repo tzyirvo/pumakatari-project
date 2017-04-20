@@ -14,7 +14,7 @@ export class ParadasModificarComponent implements OnInit {
   public positions: any = []
   public stop: any = null
   public icon: string = "assets/images/marker.png"
-  public curCenter: any = "-16.500393,-68.123077"
+  public center: any = "-16.500393,-68.123077"
   public zoom: any = 14
 
   constructor(public afService:AF, public af: AngularFire) {
@@ -32,7 +32,7 @@ export class ParadasModificarComponent implements OnInit {
         nombre: stop.nombre
       }
       console.log(this.stop)
-      this.curCenter = '' + stop.lat + ',' + stop.lng
+      this.center = '' + stop.lat + ',' + stop.lng
       this.positions = [[stop.lat, stop.lng]]
       this.zoom = 18
     })
@@ -73,7 +73,7 @@ export class ParadasModificarComponent implements OnInit {
   }
 
   resetValues() {
-    this.curCenter = "-16.500393,-68.123077"
+    this.center = "-16.500393,-68.123077"
     this.positions = []
     this.zoom = 14
   }

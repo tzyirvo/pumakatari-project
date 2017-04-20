@@ -118,9 +118,7 @@ export class AF {
   }
 
   /**
-   * @param name
-   * @param lat
-   * @param lng
+   * @param {Object} stop
    * @returns {firebase.Promise<void>}
    */
   modifyStop(stop) {

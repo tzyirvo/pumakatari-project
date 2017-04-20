@@ -11,15 +11,21 @@ export class ParadasComponent implements OnInit {
   public iconUrl: string = 'assets/images/marker.png';
 
   stops$: FirebaseListObservable<any[]>;
-  stop$: FirebaseObjectObservable<any>;
+  public positions: any = []
+  public center: any = "-16.500393,-68.123077"
+  public zoom: any = 16
+  public icon: string = "assets/images/marker.png"
 
   constructor(public af: AngularFire) {
     this.stops$ = af.database.list(`paradas`)
   }
 
   updateStop(stop: string) {
-    this.stop$ = this.af.database.object(`paradas/${stop}`)
-    this.stop$.subscribe(console.log)
+    this.af.database.object(`paradas/${stop}`).subscribe(stop => {
+      console.log(stop)
+      this.center = '' + stop.lat + ',' + stop.lng
+      this.positions = [[stop.lat, stop.lng]]
+    })
   }
 
   ngOnInit() {

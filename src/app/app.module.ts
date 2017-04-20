@@ -69,7 +69,7 @@ import { NguiMapModule} from '@ngui/map';
     NguiMapModule.forRoot({apiUrl: 'https://maps.google.com/maps/api/js?key=AIzaSyBJ4KQ9Toja55Lqf78LzRDZgEkdBPufSQ8&sensor=false&libraries=drawing'}),
     HttpModule,
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyBJ4KQ9Toja55Lqf78LzRDZgEkdBPufSQ8'
+      apiKey: 'AIzaSyCky3ub1qHMZYeifFNHHF1nATZGP6yqjLA'
     })
   ],
   providers: [AF],

@@ -7,3 +7,9 @@
 ngui-map {
   height: 400px !important;
 }
+
+@media only screen and (max-width: 640px) {
+  ngui-map {
+    height: 300px !important;
+  }
+}

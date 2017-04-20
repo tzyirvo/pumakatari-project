@@ -16,12 +16,22 @@ export class MapaComponent implements OnInit {
   constructor(public af: AngularFire) {
     af.database.list(`paradas`).subscribe(stops => {
       stops.forEach(stop => {
-        this.positions.push([stop.lat, stop.lng])
+        this.positions.push({
+          name: stop.nombre,
+          latLng: [stop.lat, stop.lng]
+        })
       })
     })
   }
 
   ngOnInit() {
+  }
+
+  clicked(event) {
+    var marker = event.target;
+    marker.nguiMapComponent.openInfoWindow('iw', marker, {
+      stopName: marker.getTitle()
+    });
   }
 
 }

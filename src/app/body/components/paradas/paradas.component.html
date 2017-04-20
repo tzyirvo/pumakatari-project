@@ -16,9 +16,14 @@
 
     <ngui-map [zoom]="zoom" [center]="center">
       <marker *ngFor="let pos of positions"
-              [position]="pos"
-              [icon]="icon">
+              [position]="pos.latLng"
+              [icon]="icon"
+              (click)="clicked($event)"
+              [title]="pos.name">
       </marker>
+      <info-window id="iw">
+        [[stopName]]
+      </info-window>
     </ngui-map>
 
   </div>

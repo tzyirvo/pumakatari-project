@@ -29,10 +29,16 @@
           }">
         </drawing-manager>
         <marker *ngFor="let pos of positions"
-                [position]="pos"
+                [position]="pos.latLng"
                 [draggable]="true"
-                [icon]="icon" (dragend)="onDragEnd($event)">
+                [icon]="icon"
+                (click)="clicked($event)"
+                [title]="pos.name"
+                (dragend)="onDragEnd($event)">
         </marker>
+        <info-window id="iw">
+          [[stopName]]
+        </info-window>
       </ngui-map>
     </div>
 

@@ -29,7 +29,10 @@ export class RutasComponent implements OnInit {
       .subscribe(paradas => {
         paradas.map(parada => {
           this.af.database.object(`paradas/` + parada.$value).subscribe(stop => {
-            this.positions.push([stop.lat, stop.lng])
+            this.positions.push({
+              latLng: [stop.lat, stop.lng],
+              name: stop.nombre
+            })
             if (!this.firstStop) {
               this.firstStop = true
               this.center = '' + stop.lat + ',' + stop.lng
@@ -40,6 +43,13 @@ export class RutasComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  clicked(event) {
+    var marker = event.target;
+    marker.nguiMapComponent.openInfoWindow('iw', marker, {
+      stopName: marker.getTitle()
+    });
   }
 
 }

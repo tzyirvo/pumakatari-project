@@ -24,11 +24,21 @@ export class ParadasComponent implements OnInit {
     this.af.database.object(`paradas/${stop}`).subscribe(stop => {
       console.log(stop)
       this.center = '' + stop.lat + ',' + stop.lng
-      this.positions = [[stop.lat, stop.lng]]
+      this.positions = [{
+        latLng: [stop.lat, stop.lng],
+        name: stop.nombre
+      }]
     })
   }
 
   ngOnInit() {
+  }
+
+  clicked(event) {
+    var marker = event.target;
+    marker.nguiMapComponent.openInfoWindow('iw', marker, {
+      stopName: marker.getTitle()
+    });
   }
 
 }

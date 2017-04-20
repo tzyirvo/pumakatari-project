@@ -33,7 +33,10 @@ export class ParadasModificarComponent implements OnInit {
       }
       console.log(this.stop)
       this.center = '' + stop.lat + ',' + stop.lng
-      this.positions = [[stop.lat, stop.lng]]
+      this.positions = [{
+        latLng: [stop.lat, stop.lng],
+        name: stop.nombre
+      }]
       this.zoom = 18
     })
   }
@@ -76,6 +79,13 @@ export class ParadasModificarComponent implements OnInit {
     this.center = "-16.500393,-68.123077"
     this.positions = []
     this.zoom = 14
+  }
+
+  clicked(event) {
+    var marker = event.target;
+    marker.nguiMapComponent.openInfoWindow('iw', marker, {
+      stopName: marker.getTitle()
+    });
   }
 
 }

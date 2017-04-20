@@ -103,4 +103,19 @@ export class AF {
     return this.af.database.object(`rutas/${route}`).remove()
   }
 
+  /**
+   *
+   * @param name
+   * @param lat
+   * @param lng
+   * @returns {firebase.Promise<void>}
+   */
+  saveNewStop(name, lat, lng) {
+    return this.af.database.list(`paradas`).push({
+      nombre: name,
+      lat: lat,
+      lng: lng
+    })
+  }
+
 }

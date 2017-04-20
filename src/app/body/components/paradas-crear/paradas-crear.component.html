@@ -1,15 +1,29 @@
 <div class="vbox">
+
   <h1 class="section-title">Crear Parada</h1>
-  <ngui-map zoom="16" center="-34.397, 150.644">
-    <drawing-manager
-      [drawingMode]="'marker'"
-      [drawingControl]="true"
-      [drawingControlOptions]="{
-        position: 2,
-        drawingModes: ['marker', 'circle', 'polygon', 'polyline', 'rectangle']
-       }"
-    ></drawing-manager>
-  </ngui-map>
-  selectedOverlay: {{selectedOverlay}} <br/>
-  <button (click)="saveStop()">Crear Parada</button>
+
+  <form (submit)="saveStop($event, name.value)">
+    <div class="form-group create-stop-form">
+      <span for="name">Nombre de la Parada:</span>
+      <input #name type="text" class="pk-input form-control" id="name" required>
+      <button type="submit" class="pk-button">Crear Parada</button>
+    </div>
+    <div class="map-container">
+      <ngui-map zoom="14" center="-16.500393,-68.123077">
+        <drawing-manager
+          [drawingMode]="'marker'"
+          [drawingControl]="true"
+          [drawingControlOptions]="{
+            position: 1,
+            drawingModes: ['marker']
+          }"
+          [markerOptions]="{
+            icon: 'assets/images/marker.png'
+          }"
+        ></drawing-manager>
+      </ngui-map>
+    </div>
+
+  </form>
+
 </div>

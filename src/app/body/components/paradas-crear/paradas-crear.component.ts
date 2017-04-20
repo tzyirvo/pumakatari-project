@@ -1,6 +1,7 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
 //noinspection TypeScriptCheckImport
 import { DrawingManager } from '@ngui/map';
+import {AF} from "../../../../providers/af";
 
 @Component({
   selector: 'app-paradas-crear',
@@ -9,8 +10,9 @@ import { DrawingManager } from '@ngui/map';
 export class ParadasCrearComponent implements OnInit {
   selectedOverlay: any;
   @ViewChild(DrawingManager) drawingManager: DrawingManager;
+  public error: any
 
-  constructor() { }
+  constructor(public afService:AF) { }
 
   ngOnInit() {
     this.drawingManager['initialized$'].subscribe(dm => {
@@ -21,10 +23,21 @@ export class ParadasCrearComponent implements OnInit {
     });
   }
 
-  saveStop() {
+  saveStop(event, name) {
     if (this.selectedOverlay) {
-      //@TODO
-      //saveNewStop(name, this.selectedOverlay.position.lat(), this.selectedOverlay.position.lng())
+      this.afService.saveNewStop(name, this.selectedOverlay.position.lat(), this.selectedOverlay.position.lng()).then(() => {
+        console.log('bus stop created!', 'bus name:', name)
+        this.setSuccessMsg()
+        this.clearFields()
+      }).catch((error:any) => {
+        if (error) {
+          this.error = error;
+          console.log(this.error);
+          this.setErrorMsg()
+        }
+      })
+    } else {
+      alert('¡Selecciona la posicion de la parada en el mapa primero!')
     }
   }
 
@@ -33,6 +46,18 @@ export class ParadasCrearComponent implements OnInit {
       this.selectedOverlay.setMap(null);
       delete this.selectedOverlay;
     }
+  }
+
+  setErrorMsg() {
+    //@TODO
+  }
+
+  setSuccessMsg() {
+    //@TODO
+  }
+
+  clearFields() {
+    //@TODO
   }
 
 }

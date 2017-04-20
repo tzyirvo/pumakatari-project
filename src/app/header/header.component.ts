@@ -31,7 +31,7 @@ export class HeaderComponent implements OnInit {
 
   logout() {
     this.afService.logout().then(() => {
-        let classList = this.elRef.nativeElement.parentElement.parentElement.parentElement.parentElement.classList
+        let classList = this.elRef.nativeElement.parentElement.parentElement.classList
         classList.remove('auth')
         this.store.dispatch(new user.LogOut())
         this.router.navigate(['inicio']);

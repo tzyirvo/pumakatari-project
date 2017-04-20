@@ -35,7 +35,7 @@ export class IniciarSesionComponent implements OnInit {
     event.preventDefault();
     this.afService.loginWithEmail(email, password).then(() => {
       this.store.dispatch(new user.LogIn(email))
-        let classList = this.elRef.nativeElement.parentElement.parentElement.parentElement.parentElement.classList
+        let classList = this.elRef.nativeElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.classList
         classList.add('auth')
         this.router.navigate(['inicio']);
       })

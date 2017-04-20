@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 import "rxjs/add/operator/map";
@@ -17,7 +17,7 @@ export class RutasComponent implements OnInit {
   public zoom: any = 14
   public icon: string = "assets/images/marker.png"
 
-  constructor(public af: AngularFire) {
+  constructor(public af: AngularFire, private elRef:ElementRef) {
     this.routes$ = af.database.list(`rutas`)
     this.routes$.subscribe(console.log)
   }
@@ -50,6 +50,12 @@ export class RutasComponent implements OnInit {
     marker.nguiMapComponent.openInfoWindow('iw', marker, {
       stopName: marker.getTitle()
     });
+  }
+
+  ngAfterViewInit() {
+    let classList = this.elRef.nativeElement.parentElement.parentElement.parentElement.parentElement.classList
+    classList.remove('inicio-tab')
+    classList.add('other-tab')
   }
 
 }

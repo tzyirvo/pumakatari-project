@@ -1,3 +1,57 @@
 .content-body {
   padding: 10px;
 }
+
+@media only screen and (max-width: 640px) {
+  .inicio-tab {
+    .content-body {
+      padding: 10px;
+      padding-right: 40px;
+      app-content {
+        display: none;
+      }
+      app-side-bar {
+        width: 100%;
+        .sidebar-ctn {
+          width: 100%;
+          a {
+            border-right: 1px solid #000;
+            &.first-tab {
+              display: none;
+            }
+            &.second-tab {
+              border-top: 1px solid #000;
+            }
+            &.middle-tab {
+              border-top: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+  .other-tab {
+    .content-body {
+      padding-top: 0;
+      .app-content {
+        margin-left: 0;
+      }
+      .sidebar-ctn {
+        display: none;
+      }
+    }
+
+    > .sidebar-ctn {
+      width: 100%;
+      a.return-tab {
+        display: block;
+      }
+      .return-tab {
+        width: 100%;
+        margin-right: 10px;
+      }
+    }
+
+  }
+
+}

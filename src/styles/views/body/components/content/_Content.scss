@@ -9,3 +9,9 @@
     text-align: center;
   }
 }
+
+@media only screen and (max-width: 640px) {
+  .app-content .section-title {
+    margin: 0;
+  }
+}

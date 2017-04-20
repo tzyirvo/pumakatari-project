@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
 import { AngularFire, FirebaseListObservable } from 'angularfire2';
 
 @Component({
@@ -13,7 +13,7 @@ export class MapaComponent implements OnInit {
   public zoom: any = 12
   public icon: string = "assets/images/marker.png"
 
-  constructor(public af: AngularFire) {
+  constructor(public af: AngularFire, private elRef:ElementRef) {
     af.database.list(`paradas`).subscribe(stops => {
       stops.forEach(stop => {
         this.positions.push({
@@ -32,6 +32,12 @@ export class MapaComponent implements OnInit {
     marker.nguiMapComponent.openInfoWindow('iw', marker, {
       stopName: marker.getTitle()
     });
+  }
+
+  ngAfterViewInit() {
+    let classList = this.elRef.nativeElement.parentElement.parentElement.parentElement.parentElement.classList
+    classList.remove('inicio-tab')
+    classList.add('other-tab')
   }
 
 }

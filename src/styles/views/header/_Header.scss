@@ -27,3 +27,22 @@
     padding: 5px;
   }
 }
+
+@media only screen and (max-width: 640px) {
+  .page-title {
+    height: 110px;
+    .login-ctn {
+      display: none;
+    }
+    a {
+      &.la-paz-bus-link {
+        font-size: 30px !important;
+      }
+    }
+    .logo {
+      padding: 5px;
+      width: 100px;
+      height: 100px;
+    }
+  }
+}

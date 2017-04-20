@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
 
 @Component({
   selector: 'app-proximo-bus',
@@ -6,9 +6,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProximoBusComponent implements OnInit {
 
-  constructor() { }
+  constructor(private elRef:ElementRef) { }
 
   ngOnInit() {
+  }
+
+  ngAfterViewInit() {
+    let classList = this.elRef.nativeElement.parentElement.parentElement.parentElement.parentElement.classList
+    classList.remove('inicio-tab')
+    classList.add('other-tab')
   }
 
 }

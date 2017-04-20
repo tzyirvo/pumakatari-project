@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
 import {AF} from "../../../../providers/af";
 
 @Component({
@@ -8,7 +8,7 @@ import {AF} from "../../../../providers/af";
 export class ContactanosComponent implements OnInit {
   public error:any;
 
-  constructor(public afService:AF) { }
+  constructor(public afService:AF, private elRef:ElementRef) { }
 
   ngOnInit() {
   }
@@ -38,6 +38,12 @@ export class ContactanosComponent implements OnInit {
 
   clearFields() {
     //@TODO
+  }
+
+  ngAfterViewInit() {
+    let classList = this.elRef.nativeElement.parentElement.parentElement.parentElement.parentElement.classList
+    classList.remove('inicio-tab')
+    classList.add('other-tab')
   }
 
 }

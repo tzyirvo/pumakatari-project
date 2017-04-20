@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 
@@ -16,7 +16,7 @@ export class ParadasComponent implements OnInit {
   public zoom: any = 16
   public icon: string = "assets/images/marker.png"
 
-  constructor(public af: AngularFire) {
+  constructor(public af: AngularFire, private elRef:ElementRef) {
     this.stops$ = af.database.list(`paradas`)
   }
 
@@ -39,6 +39,12 @@ export class ParadasComponent implements OnInit {
     marker.nguiMapComponent.openInfoWindow('iw', marker, {
       stopName: marker.getTitle()
     });
+  }
+
+  ngAfterViewInit() {
+    let classList = this.elRef.nativeElement.parentElement.parentElement.parentElement.parentElement.classList
+    classList.remove('inicio-tab')
+    classList.add('other-tab')
   }
 
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
 import {AF} from "../../../../providers/af";
 import {Router} from "@angular/router";
 import { Store } from '@ngrx/store';
@@ -12,7 +12,7 @@ import * as user from '../../../actions/user.action';
 export class IniciarSesionComponent implements OnInit {
   public error:any;
 
-  constructor(public afService:AF, private router:Router, private store: Store<fromRoot.State>) {
+  constructor(public afService:AF, private router:Router, private store: Store<fromRoot.State>, private elRef:ElementRef) {
   }
 
   ngOnInit() {
@@ -35,6 +35,8 @@ export class IniciarSesionComponent implements OnInit {
     event.preventDefault();
     this.afService.loginWithEmail(email, password).then(() => {
       this.store.dispatch(new user.LogIn(email))
+        let classList = this.elRef.nativeElement.parentElement.parentElement.parentElement.parentElement.classList
+        classList.add('auth')
         this.router.navigate(['inicio']);
       })
       .catch((error:any) => {

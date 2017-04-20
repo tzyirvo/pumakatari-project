@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
 import {AF} from "../../providers/af";
 import {Router} from "@angular/router";
 import * as fromRoot from '../reducers/';
@@ -20,7 +20,7 @@ export class HeaderComponent implements OnInit {
   public isLoggedIn: Observable<boolean>;
   public isNotLoggedIn: Observable<boolean>;
 
-  constructor(public afService:AF, private router:Router, private store: Store<fromRoot.State>) {
+  constructor(public afService:AF, private router:Router, private store: Store<fromRoot.State>, private elRef:ElementRef) {
     this.username = this.store.select(fromRoot.getUserEmail);
     this.isLoggedIn = this.store.select(fromRoot.isUserLoggedIn);
     this.isNotLoggedIn = this.store.select(fromRoot.isNotUserLoggedIn);
@@ -31,6 +31,8 @@ export class HeaderComponent implements OnInit {
 
   logout() {
     this.afService.logout().then(() => {
+        let classList = this.elRef.nativeElement.parentElement.parentElement.parentElement.parentElement.classList
+        classList.remove('auth')
         this.store.dispatch(new user.LogOut())
         this.router.navigate(['inicio']);
       })
@@ -41,6 +43,11 @@ export class HeaderComponent implements OnInit {
         }
       });
 
+  }
+
+  ngAfterViewInit() {
+    let classList = this.elRef.nativeElement.parentElement.parentElement.parentElement.parentElement.classList
+    classList.remove('auth')
   }
 
 }

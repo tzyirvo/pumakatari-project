@@ -31,8 +31,4 @@ export class ParadasComponent implements OnInit {
   ngOnInit() {
   }
 
-  private convertStringToNumber(value: string): number {
-    return +value;
-  }
-
 }

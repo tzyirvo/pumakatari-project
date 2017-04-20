@@ -7,22 +7,21 @@ import { AngularFire, FirebaseListObservable } from 'angularfire2';
 })
 export class MapaComponent implements OnInit {
 
-  public lat: number = -16.497317;
-  public lng: number = -68.109008;
   public iconUrl: string = 'assets/images/marker.png';
-
-  stops$: FirebaseListObservable<any[]>;
+  public positions: any = []
+  public center: any = "-16.497317,-68.109008"
+  public zoom: any = 12
+  public icon: string = "assets/images/marker.png"
 
   constructor(public af: AngularFire) {
-    this.stops$ = af.database.list(`paradas`)
-    this.stops$.subscribe(console.log)
+    af.database.list(`paradas`).subscribe(stops => {
+      stops.forEach(stop => {
+        this.positions.push([stop.lat, stop.lng])
+      })
+    })
   }
 
   ngOnInit() {
-  }
-
-  private convertStringToNumber(value: string): number {
-    return +value;
   }
 
 }

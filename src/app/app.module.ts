@@ -67,10 +67,7 @@ import { NguiMapModule} from '@ngui/map';
     }),
     FormsModule,
     NguiMapModule.forRoot({apiUrl: 'https://maps.google.com/maps/api/js?key=AIzaSyBJ4KQ9Toja55Lqf78LzRDZgEkdBPufSQ8&sensor=false&libraries=drawing'}),
-    HttpModule,
-    AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyCky3ub1qHMZYeifFNHHF1nATZGP6yqjLA'
-    })
+    HttpModule
   ],
   providers: [AF],
   bootstrap: [AppComponent]

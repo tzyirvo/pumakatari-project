@@ -9,11 +9,7 @@ import "rxjs/add/operator/map";
 })
 export class RutasComponent implements OnInit {
 
-  //public iconUrl: string = 'assets/images/marker.png';
-
   routes$: FirebaseListObservable<any[]>;
-  //stops$: FirebaseListObservable<any[]>;
-  //firstStop$: FirebaseObjectObservable<any>;
   public firstStop: boolean = false
 
   public positions: any = []
@@ -44,10 +40,6 @@ export class RutasComponent implements OnInit {
   }
 
   ngOnInit() {
-  }
-
-  private convertStringToNumber(value: string): number {
-    return +value;
   }
 
 }

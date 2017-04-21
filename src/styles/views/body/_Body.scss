@@ -43,11 +43,34 @@
     }
   }
   .other-tab {
+    .pk-button {
+      max-width: 100% !important;
+      height: 30px;
+      font-size: 18px;
+    }
+    .pk-input, input.pk-textarea {
+      min-width: 150px;
+      width: 100%;
+      max-width: 345px;
+    }
     .content-body {
       padding-top: 0;
       .app-content {
         margin-left: 0;
         height: auto;
+        .iniciar-sesion {
+          width: auto;
+          margin: 0;
+          padding-top: 30px;
+          border-radius: 15px 15px 0 0;
+          .form-group {
+            width: 100%;
+            span {
+              min-width: 60px;
+              max-width: 100px;
+            }
+          }
+        }
       }
       .sidebar-ctn {
         display: none;

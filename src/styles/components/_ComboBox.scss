@@ -2,4 +2,7 @@
   @extend .pk-input;
   margin-bottom: 10px;
   width: 240px;
+  option.selected {
+    background-color: rgba(230, 145, 48, 0.5);
+  }
 }

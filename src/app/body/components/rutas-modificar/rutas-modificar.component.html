@@ -1,6 +1,64 @@
 <div class="vbox">
   <h1 class="section-title">Modificar Ruta</h1>
-  <div class="hbox">
 
-  </div>
+  <form (submit)="modifyRoute($event)">
+
+    <div class="form-group create-stop-form">
+
+      <div>
+        <select
+          name="routes"
+          class="pk-combobox stops-combo"
+          (change)="updateRoute($event,$event.target.value)">
+          <option [value]="" disabled selected hidden> -- Seleccionar Ruta -- </option>
+          <option *ngFor="let item of (routes$ | async)" [value]="item.$key">
+            {{ item.nombre }}
+          </option>
+        </select>
+        <button type="submit" class="pk-button">Modificar Ruta</button>
+      </div>
+
+      <div>
+          <select
+            name="stops"
+            class="pk-combobox stops-combo"
+            (change)="toggleStop($event,$event.target.value)">
+            <option [value]="" disabled selected hidden multiple> -- Seleccionar Paradas -- </option>
+            <option *ngFor="let item of positions" [value]="item.$key">
+              {{ item.name }}
+            </option>
+          </select>
+          <button class="pk-button" (click)="deleteTrace()">Borrar Trazo</button>
+      </div>
+
+    </div>
+
+
+
+    <div class="map-container">
+      <ngui-map [zoom]="zoom" [center]="center">
+        <drawing-manager
+          [drawingMode]="'polyline'"
+          [drawingControl]="true"
+          [drawingControlOptions]="{
+            position: 1,
+            drawingModes: ['polyline']
+          }">
+        </drawing-manager>
+        <marker *ngFor="let pos of selectedPositions"
+                [position]="pos.latLng"
+                [draggable]="true"
+                [icon]="icon"
+                (click)="clicked($event)"
+                [title]="pos.name"
+                (dragend)="onDragEnd($event)">
+        </marker>
+        <info-window id="iw">
+          [[stopName]]
+        </info-window>
+      </ngui-map>
+    </div>
+
+  </form>
+
 </div>

@@ -43,6 +43,9 @@
     }
   }
   .other-tab {
+    app-header {
+      display: none;
+    }
     .pk-button {
       max-width: 100% !important;
       height: 30px;
@@ -77,7 +80,7 @@
       }
     }
 
-    > .sidebar-ctn {
+    .sidebar-ctn {
       width: 100%;
       a.return-tab {
         display: block;

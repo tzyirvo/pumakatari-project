@@ -42,7 +42,7 @@ export class ParadasComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    let classList = this.elRef.nativeElement.parentElement.parentElement.parentElement.parentElement.classList
+    let classList = this.elRef.nativeElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.classList
     classList.remove('inicio-tab')
     classList.add('other-tab')
   }

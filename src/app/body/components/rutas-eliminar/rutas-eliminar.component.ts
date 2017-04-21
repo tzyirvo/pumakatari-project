@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 import {AF} from "../../../../providers/af";
@@ -12,7 +12,7 @@ export class RutasEliminarComponent implements OnInit {
   routes$: FirebaseListObservable<any[]>
   routeToDeleteKey: string = ''
 
-  constructor(public af: AngularFire, public afService:AF) {
+  constructor(public af: AngularFire, public afService:AF, private elRef:ElementRef) {
     this.routes$ = af.database.list(`rutas`)
   }
 
@@ -27,6 +27,12 @@ export class RutasEliminarComponent implements OnInit {
     if (this.routeToDeleteKey !== '') {
       this.afService.deleteRoute(this.routeToDeleteKey)
     }
+  }
+
+  ngAfterViewInit() {
+    let classList = this.elRef.nativeElement.parentElement.parentElement.parentElement.parentElement.classList
+    classList.remove('other-tab')
+    classList.add('inicio-tab')
   }
 
 }

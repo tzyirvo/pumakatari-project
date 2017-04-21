@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit, ElementRef } from '@angular/core';
 //noinspection TypeScriptCheckImport
 import {AF} from "../../../../providers/af";
 import { Observable } from 'rxjs/Observable';
@@ -17,7 +17,7 @@ export class ParadasModificarComponent implements OnInit {
   public center: any = "-16.500393,-68.123077"
   public zoom: any = 14
 
-  constructor(public afService:AF, public af: AngularFire) {
+  constructor(public afService:AF, public af: AngularFire, private elRef:ElementRef) {
     this.stops$ = af.database.list(`paradas`)
   }
 
@@ -86,6 +86,12 @@ export class ParadasModificarComponent implements OnInit {
     marker.nguiMapComponent.openInfoWindow('iw', marker, {
       stopName: marker.getTitle()
     });
+  }
+
+  ngAfterViewInit() {
+    let classList = this.elRef.nativeElement.parentElement.parentElement.parentElement.parentElement.classList
+    classList.remove('other-tab')
+    classList.add('inicio-tab')
   }
 
 }

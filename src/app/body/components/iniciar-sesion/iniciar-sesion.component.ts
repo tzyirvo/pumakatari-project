@@ -47,4 +47,10 @@ export class IniciarSesionComponent implements OnInit {
       });
   }
 
+  ngAfterViewInit() {
+    let classList = this.elRef.nativeElement.parentElement.parentElement.parentElement.parentElement.classList
+    classList.remove('other-tab')
+    classList.add('inicio-tab')
+  }
+
 }

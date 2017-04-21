@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit, ElementRef } from '@angular/core';
 //noinspection TypeScriptCheckImport
 import { DrawingManager } from '@ngui/map';
 import {AF} from "../../../../providers/af";
@@ -12,7 +12,7 @@ export class ParadasCrearComponent implements OnInit {
   @ViewChild(DrawingManager) drawingManager: DrawingManager;
   public error: any
 
-  constructor(public afService:AF) { }
+  constructor(public afService:AF, private elRef:ElementRef) { }
 
   ngOnInit() {
     this.drawingManager['initialized$'].subscribe(dm => {
@@ -58,6 +58,12 @@ export class ParadasCrearComponent implements OnInit {
 
   clearFields() {
     //@TODO
+  }
+
+  ngAfterViewInit() {
+    let classList = this.elRef.nativeElement.parentElement.parentElement.parentElement.parentElement.classList
+    classList.remove('other-tab')
+    classList.add('inicio-tab')
   }
 
 }

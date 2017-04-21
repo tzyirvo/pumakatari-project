@@ -11,7 +11,7 @@
   }
 }
 
-@media only screen and (max-width: 640px) {
+@media only screen and (max-width: 950px) {
   .inicio-tab {
     .content-body {
       padding: 10px;
@@ -51,7 +51,7 @@
     .pk-input, input.pk-textarea {
       min-width: 150px;
       width: 100%;
-      max-width: 345px;
+      max-width: 100%;
     }
     .content-body {
       padding-top: 0;
@@ -61,7 +61,7 @@
         .iniciar-sesion {
           width: auto;
           margin: 0;
-          padding-top: 30px;
+          padding-top: 20px;
           border-radius: 15px 15px 0 0;
           .form-group {
             width: 100%;

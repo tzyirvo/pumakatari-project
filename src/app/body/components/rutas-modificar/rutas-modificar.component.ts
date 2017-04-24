@@ -106,29 +106,30 @@ export class RutasModificarComponent implements OnInit {
           this.overlays.push(polyline)
         }
       }
-      this.stops$.forEach(stops => {
-        stops.map(stop => {
-          if (this.isStopinRoute(stop.$key, route.paradas)) {
-            this.selectedPositions.push({
-              latLng: [stop.lat, stop.lng],
-              name: stop.nombre,
-              $key: stop.$key
-            })
-            if (!this.firstStop) {
-              this.firstStop = true
-              this.center = '' + stop.lat + ',' + stop.lng
-            }
-            for(i = 0; i < options.length; i += 1) {
-              if (options[i].value === stop.$key) {
-                options[i].selected = true
-                options[i].classList.add('selected')
-                break
+      if (route.paradas) {
+        this.stops$.forEach(stops => {
+          stops.map(stop => {
+            if (this.isStopinRoute(stop.$key, route.paradas)) {
+              this.selectedPositions.push({
+                latLng: [stop.lat, stop.lng],
+                name: stop.nombre,
+                $key: stop.$key
+              })
+              if (!this.firstStop) {
+                this.firstStop = true
+                this.center = '' + stop.lat + ',' + stop.lng
+              }
+              for(i = 0; i < options.length; i += 1) {
+                if (options[i].value === stop.$key) {
+                  options[i].selected = true
+                  options[i].classList.add('selected')
+                  break
+                }
               }
             }
-          }
+          })
         })
-      })
-      this.updateSelectList()
+      }
     })
   }
 
@@ -214,14 +215,6 @@ export class RutasModificarComponent implements OnInit {
   onMapReady(event) {
     this.map = event
     console.log(event)
-  }
-
-  updateSelectList() {
-    let options = this.elRef.nativeElement.firstChild.childNodes[3].childNodes[1].childNodes[3].childNodes[1].options;
-    let i
-    for(i = 0; i < options.length; i += 1) {
-      options[i].selected = (this.selectedPositions.indexOf(options[i].value) > -1)
-    }
   }
 
   isStopinRoute(stopKey, paradas) {

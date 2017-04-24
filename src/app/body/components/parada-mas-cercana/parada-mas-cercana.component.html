@@ -1,5 +1,22 @@
 <div class="vbox">
   <h1 class="section-title">Parada mas cercana</h1>
+  <div class="form-group create-stop-form">
+    <div>
+      <span for="name">Parada de Partida: {{ initialStop?.nombre }}</span>
+    </div>
+    <div>
+      <span for="name">Ruta: {{ route?.nombre }}</span>
+    </div>
+    <select
+      name="stops"
+      class="pk-combobox stops-combo"
+      (change)="selectStop($event.target.value)">
+      <option [value]="destStopKey" disabled selected hidden> -- Seleccionar Parada Destino -- </option>
+      <option *ngFor="let item of (stops$ | async)" [value]="item.$key">
+        {{ item.nombre }}
+      </option>
+    </select>
+  </div>
   <div class="map-container">
     <ngui-map [zoom]="zoom" [center]="center" (mapReady$)="onMapReady($event)">
       <marker *ngFor="let pos of middlePositions"
@@ -38,4 +55,5 @@
     </ngui-map>
     <!--<div id="my-panel"></div>-->
   </div>
+
 </div>

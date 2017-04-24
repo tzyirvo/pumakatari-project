@@ -11,7 +11,7 @@ export class ParadaMasCercanaComponent implements OnInit {
   @ViewChild(DirectionsRenderer) directionsRendererDirective: DirectionsRenderer;
   directionsRenderer: google.maps.DirectionsRenderer;
   directionsResult: google.maps.DirectionsResult;
-  public destStopKey: string
+  public destStopKey: string = ''
   public curPos = {lat: -16.500393, lng: -68.123077}
   public center: any = "-16.500393,-68.123077"
   public initStopLatLng: any = "-16.500393, -68.123077"
@@ -26,8 +26,11 @@ export class ParadaMasCercanaComponent implements OnInit {
   public route: any
   public map: any
   public overlays: any = []
+  stops$: FirebaseListObservable<any[]>;
 
-  constructor(private elRef:ElementRef, private router: Router, public af: AngularFire, private cdr: ChangeDetectorRef) { }
+  constructor(private elRef:ElementRef, private router: Router, public af: AngularFire, private cdr: ChangeDetectorRef) {
+    this.stops$ = af.database.list(`paradas`)
+  }
 
   ngOnInit() {
     let queryParams = this.router.routerState.snapshot.url.split('?')
@@ -77,6 +80,11 @@ export class ParadaMasCercanaComponent implements OnInit {
     }
   }
 
+  selectStop(stopKey) {
+    this.destStopKey = stopKey
+    this.initRoutes()
+  }
+
   initRoutes() {
     let initialStopModified = false
     let i
@@ -86,7 +94,8 @@ export class ParadaMasCercanaComponent implements OnInit {
     this.deleteAllTraces()
     this.route = null
     this.positions = []
-    if (this.destStopKey) {
+    this.middlePositions = []
+    if (this.destStopKey && this.destStopKey !== '') {
       this.af.database.list(`rutas`).subscribe(routes => {
         for (i = 0; i < routes.length && !this.route; i += 1) {
           if (routes[i].paradas) {

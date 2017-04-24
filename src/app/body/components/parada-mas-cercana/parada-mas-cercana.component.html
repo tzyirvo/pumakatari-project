@@ -24,7 +24,7 @@
       </info-window>
       <directions-renderer
         [suppressMarkers]="true"
-        [draggable]="true"
+        [draggable]="false"
         panel="#my-panel"
         (directions_changed)="directionsChanged()"
         [directions-request]="{
@@ -36,6 +36,6 @@
         }">
       </directions-renderer>
     </ngui-map>
-    <div id="my-panel"></div>
+    <!--<div id="my-panel"></div>-->
   </div>
 </div>

@@ -23,7 +23,7 @@
             name="stops"
             class="pk-combobox stops-combo"
             (change)="toggleStop($event,$event.target.value)">
-            <option [value]="" disabled selected hidden multiple> -- Seleccionar Paradas -- </option>
+            <option [value]="undefined" disabled selected hidden multiple> -- Seleccionar Paradas -- </option>
             <option *ngFor="let item of positions" [value]="item.$key">
               {{ item.name }}
             </option>
@@ -47,11 +47,10 @@
         </drawing-manager>
         <marker *ngFor="let pos of selectedPositions"
                 [position]="pos.latLng"
-                [draggable]="true"
+                [draggable]="false"
                 [icon]="icon"
                 (click)="clicked($event)"
-                [title]="pos.name"
-                (dragend)="onDragEnd($event)">
+                [title]="pos.name">
         </marker>
         <info-window id="iw">
           [[stopName]]

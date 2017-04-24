@@ -11,7 +11,10 @@
 }
 
 @media only screen and (max-width: 950px) {
-  .app-content .section-title {
-    margin: 0;
+  .app-content {
+    min-height: auto;
+    .section-title {
+      margin: 0;
+    }
   }
 }

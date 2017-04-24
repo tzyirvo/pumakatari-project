@@ -1,6 +1,41 @@
 <div class="vbox">
   <h1 class="section-title">Parada mas cercana</h1>
-  <div class="hbox">
-
+  <div class="map-container">
+    <ngui-map [zoom]="zoom" [center]="center">
+      <marker *ngFor="let pos of middlePositions"
+              [position]="pos.latLng"
+              [icon]="smallIcon"
+              (click)="clicked($event)"
+              [title]="pos.name">
+      </marker>
+      <marker *ngFor="let pos of positions"
+              [position]="pos.latLng"
+              [icon]="icon"
+              (click)="clicked($event)"
+              [title]="pos.name">
+      </marker>
+      <marker
+        [position]="curPos"
+        (click)="clicked($event)"
+        title="Posicion actual">
+      </marker>
+      <info-window id="iw">
+        [[stopName]]
+      </info-window>
+      <directions-renderer
+        [suppressMarkers]="true"
+        [draggable]="true"
+        panel="#my-panel"
+        (directions_changed)="directionsChanged()"
+        [directions-request]="{
+          destination: initStopLatLng,
+          optimizeWaypoints: true,
+          origin: originLatLng,
+          provideRouteAlternatives: true,
+          travelMode: 'WALKING'
+        }">
+      </directions-renderer>
+    </ngui-map>
+    <div id="my-panel"></div>
   </div>
 </div>

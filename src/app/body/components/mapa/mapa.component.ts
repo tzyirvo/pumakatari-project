@@ -6,7 +6,6 @@ import { AngularFire, FirebaseListObservable } from 'angularfire2';
   templateUrl: './mapa.component.html'
 })
 export class MapaComponent implements OnInit {
-
   public iconUrl: string = 'assets/images/marker.png';
   public positions: any = []
   public center: any = "-16.497317,-68.109008"
@@ -25,6 +24,35 @@ export class MapaComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  onMapReady(map) {
+    let i
+    let j
+    let k
+    let route
+    let traces
+    let polyline
+    let randomColor
+    this.af.database.list(`rutas`).subscribe(routes => {
+      for (k = 0; k < routes.length; k += 1) {
+        route = routes[k]
+        randomColor = "#" + Math.random().toString(16).slice(2, 8)
+        if (route.trazos) {
+          for (i = 0; i < route.trazos.length; i += 1) {
+            traces = []
+            for (j = 0; j < route.trazos[i].length; j += 1) {
+              traces.push(route.trazos[i][j])
+            }
+            polyline = new google.maps.Polyline({
+              path: traces,
+              strokeColor: randomColor
+            })
+            polyline.setMap(map)
+          }
+        }
+      }
+    })
   }
 
   clicked(event) {

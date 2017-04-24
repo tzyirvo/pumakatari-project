@@ -2,7 +2,7 @@
   <h1 class="section-title">Mapa</h1>
   <div>
     <div class="map-container">
-      <ngui-map [zoom]="zoom" [center]="center">
+      <ngui-map [zoom]="zoom" [center]="center" (mapReady$)="onMapReady($event)">
         <marker *ngFor="let pos of positions"
                 [position]="pos.latLng"
                 [icon]="icon"

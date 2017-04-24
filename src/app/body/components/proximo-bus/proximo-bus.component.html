@@ -1,6 +1,14 @@
 <div class="vbox">
   <h1 class="section-title">Proximo bus</h1>
-  <div class="hbox">
-
+  <div class="form-group create-stop-form">
+    <select
+      name="stops"
+      class="pk-combobox stops-combo"
+      (change)="selectStop($event.target.value)">
+      <option [value]="" disabled selected hidden> -- Seleccionar Parada Destino -- </option>
+      <option *ngFor="let item of (stops$ | async)" [value]="item.$key">
+        {{ item.nombre }}
+      </option>
+    </select>
   </div>
 </div>

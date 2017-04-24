@@ -1,7 +1,7 @@
 <div class="vbox">
   <h1 class="section-title">Parada mas cercana</h1>
   <div class="map-container">
-    <ngui-map [zoom]="zoom" [center]="center">
+    <ngui-map [zoom]="zoom" [center]="center" (mapReady$)="onMapReady($event)">
       <marker *ngFor="let pos of middlePositions"
               [position]="pos.latLng"
               [icon]="smallIcon"

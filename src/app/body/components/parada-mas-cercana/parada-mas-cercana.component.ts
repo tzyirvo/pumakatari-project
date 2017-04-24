@@ -24,6 +24,8 @@ export class ParadaMasCercanaComponent implements OnInit {
   public icon: string = "assets/images/marker.png"
   public smallIcon: string = "assets/images/small-logo.png"
   public route: any
+  public map: any
+  public overlays: any = []
 
   constructor(private elRef:ElementRef, private router: Router, public af: AngularFire, private cdr: ChangeDetectorRef) { }
 
@@ -58,10 +60,30 @@ export class ParadaMasCercanaComponent implements OnInit {
     this.initRoutes()
   }
 
+  deleteAllTraces() {
+    let i
+    let overlaysLength = this.overlays.length
+    for (i = 0; i < overlaysLength; i += 1) {
+      this.deleteTrace(0)
+    }
+  }
+
+  deleteTrace(traceNumber) {
+    let i
+    this.overlays[traceNumber].setMap(null)
+    this.overlays.splice(traceNumber, 1)
+    for (i = 0; i < this.overlays.length; i += 1) {
+      this.overlays[i].overlayNumber = i
+    }
+  }
+
   initRoutes() {
     let initialStopModified = false
     let i
     let j
+    let traces
+    let polyline
+    this.deleteAllTraces()
     this.route = null
     this.positions = []
     if (this.destStopKey) {
@@ -73,6 +95,20 @@ export class ParadaMasCercanaComponent implements OnInit {
                 this.route = routes[i]
               }
             }
+          }
+        }
+        if (this.route.trazos) {
+          for (i = 0; i < this.route.trazos.length; i += 1) {
+            traces = []
+            for (j = 0; j < this.route.trazos[i].length; j += 1) {
+              traces.push(this.route.trazos[i][j])
+            }
+            polyline = new google.maps.Polyline({
+              path: traces
+            })
+            polyline.overlayNumber = i
+            polyline.setMap(this.map)
+            this.overlays.push(polyline)
           }
         }
         this.af.database.list(`paradas`).subscribe(stops => {
@@ -183,6 +219,11 @@ export class ParadaMasCercanaComponent implements OnInit {
       Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     return earthRadiusKm * c;
+  }
+
+  onMapReady(event) {
+    this.map = event
+    console.log(event)
   }
 
   clicked(event) {

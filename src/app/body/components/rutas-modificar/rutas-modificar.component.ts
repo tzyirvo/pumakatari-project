@@ -23,6 +23,7 @@ export class RutasModificarComponent implements OnInit {
   public selectedRoute: any = null
   public overlays: any = []
   public map: any
+  public firstStop: boolean = false
 
   constructor(private elRef:ElementRef, public afService:AF, public af: AngularFire) {
     this.routes$ = af.database.list(`rutas`)
@@ -77,6 +78,7 @@ export class RutasModificarComponent implements OnInit {
     let traces
     let polyline
     this.deleteAllTraces()
+    this.firstStop = false
     this.selectedPositions = []
     this.overlays = []
     let options = this.elRef.nativeElement.firstChild.childNodes[3].childNodes[1].childNodes[3].childNodes[1].options;
@@ -112,6 +114,10 @@ export class RutasModificarComponent implements OnInit {
               name: stop.nombre,
               $key: stop.$key
             })
+            if (!this.firstStop) {
+              this.firstStop = true
+              this.center = '' + stop.lat + ',' + stop.lng
+            }
             for(i = 0; i < options.length; i += 1) {
               if (options[i].value === stop.$key) {
                 options[i].selected = true

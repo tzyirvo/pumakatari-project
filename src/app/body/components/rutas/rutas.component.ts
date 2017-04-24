@@ -16,19 +16,57 @@ export class RutasComponent implements OnInit {
   public center: any = "-16.500393,-68.123077"
   public zoom: any = 14
   public icon: string = "assets/images/marker.png"
+  public map: any
+  public overlays: any = []
 
   constructor(public af: AngularFire, private elRef:ElementRef) {
     this.routes$ = af.database.list(`rutas`)
     this.routes$.subscribe(console.log)
   }
 
-  updateRoute(route: string) {
+  deleteAllTraces() {
+    let i
+    let overlaysLength = this.overlays.length
+    for (i = 0; i < overlaysLength; i += 1) {
+      this.deleteTrace(0)
+    }
+  }
+
+  deleteTrace(traceNumber) {
+    let i
+    this.overlays[traceNumber].setMap(null)
+    this.overlays.splice(traceNumber, 1)
+    for (i = 0; i < this.overlays.length; i += 1) {
+      this.overlays[i].overlayNumber = i
+    }
+  }
+
+  updateRoute(routeKey: string) {
+    let i
+    let j
+    let traces
+    let polyline
+    this.deleteAllTraces()
     this.firstStop = false
     this.positions = []
-    this.af.database.list(`rutas/${route}/paradas`)
-      .subscribe(paradas => {
-        paradas.map(parada => {
-          this.af.database.object(`paradas/` + parada.$value).subscribe(stop => {
+    this.af.database.object(`rutas/${routeKey}`).subscribe(route => {
+      if (route.trazos) {
+        for (i = 0; i < route.trazos.length; i += 1) {
+          traces = []
+          for (j = 0; j < route.trazos[i].length; j += 1) {
+            traces.push(route.trazos[i][j])
+          }
+          polyline = new google.maps.Polyline({
+            path: traces
+          })
+          polyline.overlayNumber = i
+          polyline.setMap(this.map)
+          this.overlays.push(polyline)
+        }
+      }
+      if (route.paradas) {
+        for (i = 0; i < route.paradas.length; i += 1) {
+          this.af.database.object(`paradas/` + route.paradas[i]).subscribe(stop => {
             this.positions.push({
               latLng: [stop.lat, stop.lng],
               name: stop.nombre
@@ -38,11 +76,17 @@ export class RutasComponent implements OnInit {
               this.center = '' + stop.lat + ',' + stop.lng
             }
           })
-        })
-      })
+        }
+      }
+    })
   }
 
   ngOnInit() {
+  }
+
+  onMapReady(event) {
+    this.map = event
+    console.log(event)
   }
 
   clicked(event) {

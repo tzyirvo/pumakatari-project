@@ -38,6 +38,9 @@ export class MapaComponent implements OnInit {
       for (k = 0; k < routes.length; k += 1) {
         route = routes[k]
         randomColor = "#" + Math.random().toString(16).slice(2, 8)
+        while (randomColor[1] === 'F' || randomColor[1] === 'f') {
+          randomColor = "#" + Math.random().toString(16).slice(2, 8)
+        }
         if (route.trazos) {
           for (i = 0; i < route.trazos.length; i += 1) {
             traces = []
@@ -46,13 +49,32 @@ export class MapaComponent implements OnInit {
             }
             polyline = new google.maps.Polyline({
               path: traces,
-              strokeColor: randomColor
+              strokeColor: this.ColorLuminance(randomColor, 0.6)
             })
             polyline.setMap(map)
           }
         }
       }
     })
+  }
+
+  ColorLuminance(hex, lum) {
+    // validate hex string
+    hex = String(hex).replace(/[^0-9a-f]/gi, '');
+    if (hex.length < 6) {
+      hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
+    }
+    lum = lum || 0;
+
+    // convert to decimal and change luminosity
+    var rgb = "#", c, i;
+    for (i = 0; i < 3; i++) {
+      c = parseInt(hex.substr(i * 2, 2), 16);
+      c = Math.round(Math.min(Math.max(0, c + (c * lum)), 255)).toString(16);
+      rgb += ("00" + c).substr(c.length);
+    }
+
+    return rgb;
   }
 
   clicked(event) {

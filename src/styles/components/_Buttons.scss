@@ -2,6 +2,7 @@
   @extend .pk-input;
   background-color: #E5E5E5;
   cursor: pointer;
+  margin-bottom: 10px;
   &:hover, &.active {
     background-color: #bcbcbc;
   }

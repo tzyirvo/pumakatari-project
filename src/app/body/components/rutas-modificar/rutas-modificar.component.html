@@ -28,7 +28,12 @@
               {{ item.name }}
             </option>
           </select>
-          <button class="pk-button" (click)="deleteTrace()">Borrar Trazo</button>
+          <button class="pk-button" type="button" (click)="deleteAllTraces()">Borrar Trazos</button>
+      </div>
+
+      <div class="form-group">
+        <span for="name">Nombre de la ruta:</span>
+        <input #name type="text" class="pk-input form-control" id="name" value="{{selectedRoute?.name}}" (keyup)="onKeyUp($event)" required>
       </div>
 
     </div>
@@ -36,13 +41,16 @@
 
 
     <div class="map-container">
-      <ngui-map [zoom]="zoom" [center]="center">
+      <ngui-map [zoom]="zoom" [center]="center" (mapReady$)="onMapReady($event)">
         <drawing-manager
           [drawingMode]="'polyline'"
           [drawingControl]="true"
           [drawingControlOptions]="{
             position: 1,
             drawingModes: ['polyline']
+          }"
+          [polylineOptions]="{
+            editable: true
           }">
         </drawing-manager>
         <marker *ngFor="let pos of selectedPositions"

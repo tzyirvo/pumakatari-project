@@ -129,4 +129,38 @@ export class AF {
     })
   }
 
+  /**
+   * @param {Array} overlays
+   * @param {Object} selectedRoute
+   * @param {Array} selectedPositions
+   * @returns {firebase.Promise<void>}
+   */
+  modifyRoute(overlays, selectedRoute, selectedPositions) {
+    let routeStops = {}
+    let routeTraces = {}
+    let i
+    let j
+
+    for (i = 0; i < selectedPositions.length; i += 1) {
+      routeStops[i] = selectedPositions[i].$key
+    }
+    for (i = 0; i < overlays.length; i += 1) {
+      routeTraces[i] = {}
+      j = 0
+      overlays[i].getPath().forEach(path => {
+        routeTraces[i][j] = {
+          lat: path.lat(),
+          lng: path.lng()
+        }
+        j += 1
+      })
+    }
+
+    return this.af.database.object(`rutas/${selectedRoute.$key}`).set({
+      nombre: selectedRoute.name,
+      paradas: routeStops,
+      trazos: routeTraces
+    })
+  }
+
 }

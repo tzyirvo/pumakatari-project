@@ -16,7 +16,6 @@ export class RutasModificarComponent implements OnInit {
   routes$: FirebaseListObservable<any[]>
   public positions: any = []
   public selectedPositions: any = []
-  //public stop: any = null
   public icon: string = "assets/images/marker.png"
   public center: any = "-16.500393,-68.123077"
   public zoom: any = 14
@@ -186,7 +185,6 @@ export class RutasModificarComponent implements OnInit {
   }
 
   modifyRoute(event) {
-    //@TODO
     this.afService.modifyRoute(this.overlays, this.selectedRoute, this.selectedPositions).then(() => {
       this.resetValues()
       console.log('bus stop modified!', 'route key:', this.selectedRoute.$key)

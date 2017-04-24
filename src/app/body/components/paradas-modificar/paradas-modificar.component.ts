@@ -41,6 +41,14 @@ export class ParadasModificarComponent implements OnInit {
     })
   }
 
+  onKeyUp(event) {
+    if (this.stop) {
+      this.stop.nombre = event.target.value
+    } else {
+      event.target.value = ''
+    }
+  }
+
   onDragEnd(event) {
     this.stop.lat = event.latLng.lat()
     this.stop.lng = event.latLng.lng()

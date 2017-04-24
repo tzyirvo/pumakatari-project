@@ -2,18 +2,28 @@
   <h1 class="section-title">Modificar Parada</h1>
 
   <form (submit)="modifyStop($event)">
+
     <div class="form-group create-stop-form">
-      <select
-        name="stops"
-        class="pk-combobox stops-combo"
-        (change)="updateStop($event,$event.target.value)">
-        <option [value]="" disabled selected hidden> -- Seleccionar Parada -- </option>
-        <option *ngFor="let item of (stops$ | async)" [value]="item.$key">
-          {{ item.nombre }}
-        </option>
-      </select>
-      <button type="submit" class="pk-button">Modificar Parada</button>
+      <div>
+        <select
+          name="stops"
+          class="pk-combobox stops-combo"
+          (change)="updateStop($event,$event.target.value)">
+          <option [value]="" disabled selected hidden> -- Seleccionar Parada -- </option>
+          <option *ngFor="let item of (stops$ | async)" [value]="item.$key">
+            {{ item.nombre }}
+          </option>
+        </select>
+        <button type="submit" class="pk-button">Modificar Parada</button>
+      </div>
+
+      <div class="form-group">
+        <span for="name">Nombre de la parada:</span>
+        <input #name type="text" class="pk-input form-control" id="name" value="{{stop?.nombre}}" (keyup)="onKeyUp($event)" required>
+      </div>
+
     </div>
+
     <div class="map-container">
       <ngui-map [zoom]="zoom" [center]="center">
         <drawing-manager
@@ -38,7 +48,7 @@
         </marker>
         <info-window id="iw">
           [[stopName]]
-        </info-window>N
+        </info-window>
       </ngui-map>
     </div>
 

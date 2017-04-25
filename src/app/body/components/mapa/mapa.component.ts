@@ -10,7 +10,7 @@ export class MapaComponent implements OnInit {
   public positions: any = []
   public center: any = "-16.497317,-68.109008"
   public zoom: any = 12
-  public icon: string = "assets/images/marker.png"
+  public icon: string = "assets/images/small-logo.png"
 
   constructor(public af: AngularFire, private elRef:ElementRef) {
     af.database.list(`paradas`).subscribe(stops => {

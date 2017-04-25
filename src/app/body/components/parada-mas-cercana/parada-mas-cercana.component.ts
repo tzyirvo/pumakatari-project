@@ -1,7 +1,8 @@
 import { Component, ViewChild, OnInit, ElementRef, ChangeDetectorRef } from '@angular/core';
 import {Router} from '@angular/router';
-import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
+import { FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 import { DirectionsRenderer } from '@ngui/map';
+import {DbService} from "../../../services/db.service";
 
 @Component({
   selector: 'app-parada-mas-cercana',
@@ -28,8 +29,8 @@ export class ParadaMasCercanaComponent implements OnInit {
   public overlays: any = []
   stops$: FirebaseListObservable<any[]>;
 
-  constructor(private elRef:ElementRef, private router: Router, public af: AngularFire, private cdr: ChangeDetectorRef) {
-    this.stops$ = af.database.list(`paradas`)
+  constructor(private db: DbService, private elRef:ElementRef, private router: Router, private cdr: ChangeDetectorRef) {
+    this.stops$ = db.getStopsList()
   }
 
   ngOnInit() {
@@ -96,7 +97,7 @@ export class ParadaMasCercanaComponent implements OnInit {
     this.positions = []
     this.middlePositions = []
     if (this.destStopKey && this.destStopKey !== '') {
-      this.af.database.list(`rutas`).subscribe(routes => {
+      this.db.getRoutesList().subscribe(routes => {
         for (i = 0; i < routes.length && !this.route; i += 1) {
           if (routes[i].paradas) {
             for (j = 0; j < routes[i].paradas.length && !this.route; j += 1) {
@@ -120,7 +121,7 @@ export class ParadaMasCercanaComponent implements OnInit {
             this.overlays.push(polyline)
           }
         }
-        this.af.database.list(`paradas`).subscribe(stops => {
+        this.db.getStopsList().subscribe(stops => {
           stops.forEach(stop => {
             if (this.isStopinRoute(stop.$key, this.route.paradas)) {
               this.middlePositions.push({
@@ -160,7 +161,7 @@ export class ParadaMasCercanaComponent implements OnInit {
         })
       })
     } else {
-      this.af.database.list(`paradas`).subscribe(stops => {
+      this.db.getStopsList().subscribe(stops => {
         stops.forEach(stop => {
           if (!initialStopModified) {
             this.initialStop = stop

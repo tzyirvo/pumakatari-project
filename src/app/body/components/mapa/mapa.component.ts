@@ -1,5 +1,6 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
-import { AngularFire, FirebaseListObservable } from 'angularfire2';
+import { FirebaseListObservable } from 'angularfire2';
+import { DbService } from '../../../services/db.service'
 
 @Component({
   selector: 'app-mapa',
@@ -12,8 +13,8 @@ export class MapaComponent implements OnInit {
   public zoom: any = 12
   public icon: string = "assets/images/small-logo.png"
 
-  constructor(public af: AngularFire, private elRef:ElementRef) {
-    af.database.list(`paradas`).subscribe(stops => {
+  constructor(private db: DbService, private elRef:ElementRef) {
+    db.getStopsList().subscribe(stops => {
       stops.forEach(stop => {
         this.positions.push({
           name: stop.nombre,
@@ -34,7 +35,7 @@ export class MapaComponent implements OnInit {
     let traces
     let polyline
     let randomColor
-    this.af.database.list(`rutas`).subscribe(routes => {
+    this.db.getRoutesList().subscribe(routes => {
       for (k = 0; k < routes.length; k += 1) {
         route = routes[k]
         randomColor = "#" + Math.random().toString(16).slice(2, 8)

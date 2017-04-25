@@ -29,6 +29,7 @@ import { AF } from "../providers/af";
 import { StoreModule } from '@ngrx/store';
 import { reducer } from './reducers/';
 import { NguiMapModule} from '@ngui/map';
+import { DbService } from './services/db.service'
 
 @NgModule({
   declarations: [
@@ -69,7 +70,10 @@ import { NguiMapModule} from '@ngui/map';
     NguiMapModule.forRoot({apiUrl: 'https://maps.google.com/maps/api/js?key=AIzaSyBJ4KQ9Toja55Lqf78LzRDZgEkdBPufSQ8&sensor=false&libraries=drawing'}),
     HttpModule
   ],
-  providers: [AF],
+  providers: [
+    AF,
+    DbService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -9,7 +9,14 @@
     "installed_plugins": {
         "cordova-plugin-whitelist": {
             "PACKAGE_NAME": "pumakatari.project"
+        },
+        "cordova-plugin-geolocation": {
+            "PACKAGE_NAME": "pumakatari.project"
         }
     },
-    "dependent_plugins": {}
+    "dependent_plugins": {
+        "cordova-plugin-compat": {
+            "PACKAGE_NAME": "pumakatari.project"
+        }
+    }
 }

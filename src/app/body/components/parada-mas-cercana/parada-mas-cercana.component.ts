@@ -9,27 +9,28 @@ import {DbService} from "../../../services/db.service";
   templateUrl: './parada-mas-cercana.component.html'
 })
 export class ParadaMasCercanaComponent implements OnInit {
-  @ViewChild(DirectionsRenderer) directionsRendererDirective: DirectionsRenderer;
-  directionsRenderer: google.maps.DirectionsRenderer;
-  directionsResult: google.maps.DirectionsResult;
-  public destStopKey: string = ''
+  @ViewChild(DirectionsRenderer) directionsRendererDirective:DirectionsRenderer;
+  directionsRenderer:google.maps.DirectionsRenderer;
+  directionsResult:google.maps.DirectionsResult;
+  public destStopKey:string = ''
   public curPos = {lat: -16.500393, lng: -68.123077}
-  public center: any = "-16.500393,-68.123077"
-  public initStopLatLng: any = "-16.500393, -68.123077"
-  public originLatLng: any = "-16.500393, -68.12307"
-  public initialStop: any = {lat: -16.500393, lng: -68.123077}
-  public destStop: any = {lat: -16.500393, lng: -68.123077}
-  public zoom: any = 18
-  public positions: any = []
-  public middlePositions: any = []
-  public icon: string = "assets/images/marker.png"
-  public smallIcon: string = "assets/images/small-logo.png"
-  public route: any
-  public map: any
-  public overlays: any = []
-  stops$: FirebaseListObservable<any[]>;
+  public center:any = "-16.500393,-68.123077"
+  public initStopLatLng:any = "-16.500393, -68.123077"
+  public originLatLng:any = "-16.500393, -68.12307"
+  public initialStop:any = {lat: -16.500393, lng: -68.123077}
+  public destStop:any = {lat: -16.500393, lng: -68.123077}
+  public zoom:any = 18
+  public positions:any = []
+  public middlePositions:any = []
+  public icon:string = "assets/images/marker.png"
+  public smallIcon:string = "assets/images/small-logo.png"
+  public route:any
+  public map:any
+  public overlays:any = []
+  public centerUpdated: boolean = false
+  stops$:FirebaseListObservable<any[]>;
 
-  constructor(private db: DbService, private elRef:ElementRef, private router: Router, private cdr: ChangeDetectorRef) {
+  constructor(private db:DbService, private elRef:ElementRef, private router:Router, private cdr:ChangeDetectorRef) {
     this.stops$ = db.getStopsList()
   }
 
@@ -45,23 +46,35 @@ export class ParadaMasCercanaComponent implements OnInit {
       this.destStopKey = queryParams[1]
     }
     console.log('Parada destino:', this.destStopKey)
-    if(navigator.geolocation){
-      navigator.geolocation.getCurrentPosition(this.setCurPosition.bind(this));
-    }
 
+    this.getCurrentPosition()
   }
 
-  setCurPosition(position) {
+  getCurrentPosition() {
+    navigator.geolocation.getCurrentPosition(this.onMapWatchSuccess.bind(this), this.onMapError.bind(this), { enableHighAccuracy: true });
+  }
+
+  onMapWatchSuccess(position) {
     this.curPos = {
       lat: position.coords.latitude,
       lng: position.coords.longitude
     }
-    this.center = '' + this.curPos.lat + ',' + this.curPos.lng
+
+    if (!this.centerUpdated) {
+      this.center = '' + this.curPos.lat + ',' + this.curPos.lng
+      this.centerUpdated = true
+    }
+
     console.log('Posicion actual:', this.curPos)
 
     this.originLatLng = '' + this.curPos.lat + ',' + this.curPos.lng
+    this.initStopLatLng = '' + this.curPos.lat + ',' + this.curPos.lng
 
     this.initRoutes()
+  }
+
+  onMapError(error) {
+    console.log('code:' + error.code + '\n' + 'message: ' + error.message + '\n');
   }
 
   deleteAllTraces() {
@@ -124,11 +137,20 @@ export class ParadaMasCercanaComponent implements OnInit {
         this.db.getStopsList().subscribe(stops => {
           stops.forEach(stop => {
             if (this.isStopinRoute(stop.$key, this.route.paradas)) {
-              this.middlePositions.push({
-                latLng: [stop.lat, stop.lng],
-                name: stop.nombre,
-                $key: stop.$key
-              })
+              if (stop.$key === this.destStopKey) {
+                this.destStop = stop
+                this.positions.push({
+                  latLng: [stop.lat, stop.lng],
+                  name: stop.nombre,
+                  $key: stop.$key
+                })
+              } else {
+                this.middlePositions.push({
+                  latLng: [stop.lat, stop.lng],
+                  name: stop.nombre,
+                  $key: stop.$key
+                })
+              }
               if (!initialStopModified) {
                 this.initialStop = stop
                 initialStopModified = true
@@ -137,14 +159,7 @@ export class ParadaMasCercanaComponent implements OnInit {
                   this.initialStop = stop
                 }
               }
-              if (stop.$key === this.destStopKey) {
-                this.destStop = stop
-                this.positions.push({
-                  latLng: [stop.lat, stop.lng],
-                  name: stop.nombre,
-                  $key: stop.$key
-                })
-              }
+
             }
           })
           this.positions.push({
@@ -153,7 +168,7 @@ export class ParadaMasCercanaComponent implements OnInit {
             $key: this.initialStop.$key
           })
           for (i = 0; i < this.middlePositions.length; i += 1) {
-            if (this.middlePositions[i].$key === this.initialStop.$key || this.middlePositions[i].$key === this.destStop.$key) {
+            if (this.middlePositions[i].$key === this.initialStop.$key) {
               this.middlePositions.splice(i, 1)
             }
           }
@@ -184,7 +199,7 @@ export class ParadaMasCercanaComponent implements OnInit {
   isStopinRoute(stopKey, stops) {
     let i
     if (stops) {
-      for(i = 0; i < stops.length; i += 1) {
+      for (i = 0; i < stops.length; i += 1) {
         if (stopKey === stops[i]) {
           return true
         }
@@ -232,8 +247,12 @@ export class ParadaMasCercanaComponent implements OnInit {
   }
 
   onMapReady(event) {
+    let i
     this.map = event
     console.log(event)
+    for (i = 0; i < this.overlays.length; i += 1) {
+      this.overlays[i].setMap(this.map)
+    }
   }
 
   clicked(event) {

@@ -4,22 +4,55 @@ import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'a
 @Injectable()
 export class DbService {
 
-  constructor(public af: AngularFire) { }
+  private db: any
+
+  constructor(public af: AngularFire) {
+    this.db = af.database
+  }
 
   getRoutesList(): FirebaseListObservable<any> {
-    return this.af.database.list(`rutas`)
+    return this.db.list(`rutas`)
   }
 
   getStopsList(): FirebaseListObservable<any> {
-    return this.af.database.list(`paradas`)
+    return this.db.list(`paradas`)
   }
 
   getRoute(routeKey: string): FirebaseObjectObservable<any> {
-    return this.af.database.object(`rutas/${routeKey}`)
+    return this.db.object(`rutas/${routeKey}`)
   }
 
   getStop(stopKey: string): FirebaseObjectObservable<any> {
-    return this.af.database.object(`paradas/${stopKey}`)
+    return this.db.object(`paradas/${stopKey}`)
+  }
+
+  getPersonnelList(): FirebaseListObservable<any> {
+    return this.db.list(`personal`)
+  }
+
+  getPersonnel(personnelKey: string): FirebaseObjectObservable<any> {
+    return this.db.object(`personal/${personnelKey}`)
+  }
+
+  getBusesList(): FirebaseListObservable<any> {
+    return this.db.list(`buses`)
+  }
+
+  getBus(busKey: string): FirebaseObjectObservable<any> {
+    return this.db.object(`buses/${busKey}`)
+  }
+
+  getBusesPerRoute(route: string): FirebaseListObservable<any> {
+    return this.db.list(`buses`, {
+      query: {
+        orderByChild: 'ruta',
+        equalTo: route
+      }
+    })
+  }
+
+  getBusPosition(plateKey: string): FirebaseObjectObservable<any> {
+    return this.db.object(`buses/${plateKey}/posicion`)
   }
 
 }

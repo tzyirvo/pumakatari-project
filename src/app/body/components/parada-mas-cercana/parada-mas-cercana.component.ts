@@ -24,10 +24,14 @@ export class ParadaMasCercanaComponent implements OnInit {
   public middlePositions:any = []
   public icon:string = "assets/images/marker.png"
   public smallIcon:string = "assets/images/small-logo.png"
+  public busIcon:string = "assets/images/bus-marker.png"
   public route:any
   public map:any
   public overlays:any = []
   public centerUpdated: boolean = false
+  public closestBus: any
+  public busPosition$: any = []
+  public busMarkerRendered: boolean = false
   stops$:FirebaseListObservable<any[]>;
 
   constructor(private db:DbService, private elRef:ElementRef, private router:Router, private cdr:ChangeDetectorRef) {
@@ -101,12 +105,15 @@ export class ParadaMasCercanaComponent implements OnInit {
 
   initRoutes() {
     let initialStopModified = false
+    let initialBusModified = false
     let i
     let j
     let traces
     let polyline
     this.deleteAllTraces()
     this.route = null
+    this.busPosition$ = []
+    this.closestBus = null
     this.positions = []
     this.middlePositions = []
     if (this.destStopKey && this.destStopKey !== '') {
@@ -173,6 +180,22 @@ export class ParadaMasCercanaComponent implements OnInit {
             }
           }
           this.initStopLatLng = '' + this.initialStop.lat + ',' + this.initialStop.lng
+
+          this.db.getBusesPerRoute(this.route.$key).subscribe(buses => {
+            for (i = 0; i < buses.length; i += 1) {
+              if (!initialBusModified) {
+                initialBusModified = true
+                this.closestBus = buses[i]
+              } else if (this.getDist(this.initialStop, this.closestBus.posicion) > this.getDist(this.initialStop, buses[i].posicion)) {
+                this.closestBus = buses[i]
+              }
+            }
+            if (this.closestBus) {
+              this.db.getBusPosition(this.closestBus.$key).subscribe(pos => {
+                this.busPosition$ = [pos]
+              })
+            }
+          })
         })
       })
     } else {
@@ -224,7 +247,7 @@ export class ParadaMasCercanaComponent implements OnInit {
   }
 
   getDist(latLanA, latLanB) {
-    return this.distanceInKmBetweenEarthCoordinates(latLanA.lat, latLanA.lng, latLanB.lat, latLanB.lng)
+    return this.distanceInKmBetweenEarthCoordinates(+latLanA.lat, +latLanA.lng, +latLanB.lat, +latLanB.lng)
   }
 
   degreesToRadians(degrees) {

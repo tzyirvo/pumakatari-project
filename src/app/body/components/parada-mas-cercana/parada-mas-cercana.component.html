@@ -25,6 +25,10 @@
               (click)="clicked($event)"
               [title]="pos.name">
       </marker>
+      <!--<marker *ngFor="let pos of busPosition$"-->
+              <!--[position]="pos"-->
+              <!--[icon]="busIcon">-->
+      <!--</marker>-->
       <marker *ngFor="let pos of positions"
               [position]="pos.latLng"
               [icon]="icon"
@@ -54,6 +58,7 @@
       </directions-renderer>
     </ngui-map>
     <!--<div id="my-panel"></div>-->
+    <!--<div id="my-panel-2"></div>-->
   </div>
 
 </div>

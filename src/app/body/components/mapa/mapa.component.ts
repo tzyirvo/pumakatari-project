@@ -7,27 +7,53 @@ import { DbService } from '../../../services/db.service'
   templateUrl: './mapa.component.html'
 })
 export class MapaComponent implements OnInit {
-  public iconUrl: string = 'assets/images/marker.png';
-  public positions: any = []
-  public center: any = "-16.497317,-68.109008"
-  public zoom: any = 12
-  public icon: string = "assets/images/small-logo.png"
+  public iconUrl:string = 'assets/images/marker.png';
+  public positions:any = []
+  public center:any = "-16.497317,-68.109008"
+  public zoom:any = 12
+  public icon:string = "assets/images/small-logo.png"
 
-  constructor(private db: DbService, private elRef:ElementRef) {
-    db.getStopsList().subscribe(stops => {
-      stops.forEach(stop => {
-        this.positions.push({
-          name: stop.nombre,
-          latLng: [stop.lat, stop.lng]
-        })
+  constructor(private db:DbService, private elRef:ElementRef) {
+  }
+
+  setStopsPositions(stops) {
+    stops.forEach(stop => {
+      this.positions.push({
+        name: stop.nombre,
+        latLng: [stop.lat, stop.lng]
       })
     })
   }
 
   ngOnInit() {
+    this.db.getStopsList().subscribe(stops$ => {
+      if (!stops$) {
+        this.db.loadStopsList().subscribe(stops => {
+          this.setStopsPositions(stops)
+        })
+      } else {
+        stops$.subscribe(stops => {
+          this.setStopsPositions(stops)
+        })
+      }
+    })
   }
 
   onMapReady(map) {
+    this.db.getRoutesList().subscribe(routes$ => {
+      if (!routes$) {
+        this.db.loadRoutesList().subscribe(routes => {
+          this.drawMap(map, routes)
+        })
+      } else {
+        routes$.subscribe(routes => {
+          this.drawMap(map, routes)
+        })
+      }
+    })
+  }
+
+  drawMap(map, routes) {
     let i
     let j
     let k
@@ -35,28 +61,26 @@ export class MapaComponent implements OnInit {
     let traces
     let polyline
     let randomColor
-    this.db.getRoutesList().subscribe(routes => {
-      for (k = 0; k < routes.length; k += 1) {
-        route = routes[k]
+    for (k = 0; k < routes.length; k += 1) {
+      route = routes[k]
+      randomColor = "#" + Math.random().toString(16).slice(2, 8)
+      while (randomColor[1] === 'F' || randomColor[1] === 'f') {
         randomColor = "#" + Math.random().toString(16).slice(2, 8)
-        while (randomColor[1] === 'F' || randomColor[1] === 'f') {
-          randomColor = "#" + Math.random().toString(16).slice(2, 8)
-        }
-        if (route.trazos) {
-          for (i = 0; i < route.trazos.length; i += 1) {
-            traces = []
-            for (j = 0; j < route.trazos[i].length; j += 1) {
-              traces.push(route.trazos[i][j])
-            }
-            polyline = new google.maps.Polyline({
-              path: traces,
-              strokeColor: this.ColorLuminance(randomColor, 0.6)
-            })
-            polyline.setMap(map)
+      }
+      if (route.trazos) {
+        for (i = 0; i < route.trazos.length; i += 1) {
+          traces = []
+          for (j = 0; j < route.trazos[i].length; j += 1) {
+            traces.push(route.trazos[i][j])
           }
+          polyline = new google.maps.Polyline({
+            path: traces,
+            strokeColor: this.ColorLuminance(randomColor, 0.6)
+          })
+          polyline.setMap(map)
         }
       }
-    })
+    }
   }
 
   ColorLuminance(hex, lum) {

@@ -1,5 +1,6 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
 import {AF} from "../../../../providers/af";
+import {MessageService} from "../../../services/message.service";
 
 @Component({
   selector: 'app-contactanos',
@@ -8,7 +9,7 @@ import {AF} from "../../../../providers/af";
 export class ContactanosComponent implements OnInit {
   public error:any;
 
-  constructor(public afService:AF, private elRef:ElementRef) { }
+  constructor(private msgService:MessageService, public afService:AF, private elRef:ElementRef) { }
 
   ngOnInit() {
   }
@@ -17,23 +18,15 @@ export class ContactanosComponent implements OnInit {
     this.afService.addNewMessage(name, email, message)
       .then(() => {
         this.clearFields()
-        this.setSuccessMsg()
+        this.msgService.showSuccessMessage('Mensaje enviado correctamente!')
       })
       .catch((error:any) => {
         if (error) {
           this.error = error;
-          console.log(this.error);
-          this.setErrorMsg()
+          console.error(this.error);
+          this.msgService.showErrorMessage('Se produjo un error al enviar el mensaje, intente nuevamente!')
         }
       })
-  }
-
-  setSuccessMsg() {
-    //@TODO
-  }
-
-  setErrorMsg() {
-    //@TODO
   }
 
   clearFields() {

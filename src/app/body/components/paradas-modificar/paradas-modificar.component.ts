@@ -3,6 +3,7 @@ import { Component, ViewChild, OnInit, ElementRef } from '@angular/core';
 import {AF} from "../../../../providers/af";
 import { FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 import { DbService } from '../../../services/db.service'
+import {MessageService} from "../../../services/message.service";
 
 @Component({
   selector: 'app-paradas-modificar',
@@ -17,7 +18,7 @@ export class ParadasModificarComponent implements OnInit {
   public center: any = "-16.500393,-68.123077"
   public zoom: any = 14
 
-  constructor(private db:DbService, public afService:AF, private elRef:ElementRef) {
+  constructor(private msgService:MessageService, private db:DbService, public afService:AF, private elRef:ElementRef) {
   }
 
   ngOnInit() {
@@ -66,25 +67,17 @@ export class ParadasModificarComponent implements OnInit {
       this.afService.modifyStop(this.stop).then(() => {
         this.resetValues()
         console.log('bus stop modified!', 'stop key:', this.stop.key)
-        this.setSuccessMsg()
+        this.msgService.showSuccessMessage('Parada modificada exitosamente!')
       }).catch((error:any) => {
         if (error) {
           this.error = error;
           console.error(this.error);
-          this.setErrorMsg()
+          this.msgService.showErrorMessage('Error al modificar la parada')
         }
       })
     } else {
       alert('Seleccionar una parada a modificar primero')
     }
-  }
-
-  setErrorMsg() {
-    //@TODO
-  }
-
-  setSuccessMsg() {
-    //@TODO
   }
 
   resetValues() {

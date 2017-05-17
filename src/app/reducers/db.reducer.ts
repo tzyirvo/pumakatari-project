@@ -1,4 +1,4 @@
-import * as user from '../actions/db.action'
+import * as db from '../actions/db.action'
 import { FirebaseListObservable } from 'angularfire2';
 import { LatLng } from '../models/latlng'
 
@@ -16,11 +16,11 @@ const initialState:State = {
 
 export function reducer(state = initialState, action:any):State {
   switch (action.type) {
-    case user.ActionTypes.LOAD_DB_ROUTES:
+    case db.ActionTypes.LOAD_DB_ROUTES:
       return Object.assign({}, state, {routes$: action.payload});
-    case user.ActionTypes.LOAD_DB_STOPS:
+    case db.ActionTypes.LOAD_DB_STOPS:
       return Object.assign({}, state, {stops$: action.payload});
-    case user.ActionTypes.LOAD_CUR_LAT_LNG:
+    case db.ActionTypes.LOAD_CUR_LAT_LNG:
       return Object.assign({}, state, {currentLocation: action.payload});
     default:
       return state;

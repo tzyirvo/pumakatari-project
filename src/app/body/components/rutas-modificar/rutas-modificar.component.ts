@@ -3,6 +3,7 @@ import { DrawingManager } from '@ngui/map';
 import { DbService } from '../../../services/db.service'
 import { FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 import {AF} from "../../../../providers/af";
+import {MessageService} from "../../../services/message.service";
 
 @Component({
   selector: 'app-rutas-modificar',
@@ -24,7 +25,7 @@ export class RutasModificarComponent implements OnInit {
   public map: any
   public firstStop: boolean = false
 
-  constructor(private db:DbService, private elRef:ElementRef, public afService:AF) {
+  constructor(private msgService:MessageService, private db:DbService, private elRef:ElementRef, public afService:AF) {
   }
 
   ngOnInit() {
@@ -209,25 +210,17 @@ export class RutasModificarComponent implements OnInit {
     this.afService.modifyRoute(this.overlays, this.selectedRoute, this.selectedPositions).then(() => {
       this.resetValues()
       console.log('bus stop modified!', 'route key:', this.selectedRoute.$key)
-      this.setSuccessMsg()
+      this.msgService.showSuccessMessage('Ruta modificada exitosamente!')
     }).catch((error:any) => {
       if (error) {
         this.error = error;
         console.log(this.error);
-        this.setErrorMsg()
+        this.msgService.showErrorMessage('Error al modificar la ruta')
       }
     })
   }
 
   resetValues () {
-    //TODO
-  }
-
-  setSuccessMsg() {
-    //TODO
-  }
-
-  setErrorMsg() {
     //TODO
   }
 

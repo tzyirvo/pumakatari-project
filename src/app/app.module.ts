@@ -29,7 +29,10 @@ import { AF } from "../providers/af";
 import { StoreModule } from '@ngrx/store';
 import { reducer } from './reducers/';
 import { NguiMapModule} from '@ngui/map';
-import { DbService } from './services/db.service'
+import { DbService } from './services/db.service';
+import { MessageService } from './services/message.service';
+import { SuccessComponent } from './success/success.component';
+import { ErrorComponent } from './error/error.component'
 
 @NgModule({
   declarations: [
@@ -52,7 +55,9 @@ import { DbService } from './services/db.service'
     ParadasCrearComponent,
     ParadasModificarComponent,
     ParadasEliminarComponent,
-    IniciarSesionComponent
+    IniciarSesionComponent,
+    SuccessComponent,
+    ErrorComponent
   ],
   imports: [
     BrowserModule,
@@ -72,7 +77,8 @@ import { DbService } from './services/db.service'
   ],
   providers: [
     AF,
-    DbService
+    DbService,
+    MessageService
   ],
   bootstrap: [AppComponent]
 })

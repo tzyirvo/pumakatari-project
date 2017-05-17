@@ -3,6 +3,7 @@ import { DrawingManager } from '@ngui/map';
 import { FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 import {AF} from "../../../../providers/af";
 import { DbService } from '../../../services/db.service'
+import {MessageService} from "../../../services/message.service";
 
 @Component({
   selector: 'app-rutas-crear',
@@ -24,7 +25,7 @@ export class RutasCrearComponent implements OnInit {
   public map: any
   public firstStop: boolean = false
 
-  constructor(private db:DbService, private elRef:ElementRef, public afService:AF) {
+  constructor(private msgService:MessageService, private db:DbService, private elRef:ElementRef, public afService:AF) {
   }
 
   ngOnInit() {
@@ -130,25 +131,17 @@ export class RutasCrearComponent implements OnInit {
     this.afService.createRoute(this.overlays, this.routeName, this.selectedPositions).then(() => {
       this.resetValues()
       console.log('bus stop created!', 'route name:', this.routeName)
-      this.setSuccessMsg()
+      this.msgService.showSuccessMessage('Nueva ruta creada exitosamente!')
     }).catch((error:any) => {
       if (error) {
         this.error = error;
         console.log(this.error);
-        this.setErrorMsg()
+        this.msgService.showErrorMessage('Error al crear la nueva ruta')
       }
     })
   }
 
   resetValues () {
-    //TODO
-  }
-
-  setSuccessMsg() {
-    //TODO
-  }
-
-  setErrorMsg() {
     //TODO
   }
 

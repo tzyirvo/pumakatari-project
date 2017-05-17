@@ -2,6 +2,7 @@ import { Component, ViewChild, OnInit, ElementRef } from '@angular/core';
 //noinspection TypeScriptCheckImport
 import { DrawingManager } from '@ngui/map';
 import {AF} from "../../../../providers/af";
+import {MessageService} from "../../../services/message.service";
 
 @Component({
   selector: 'app-paradas-crear',
@@ -12,7 +13,7 @@ export class ParadasCrearComponent implements OnInit {
   @ViewChild(DrawingManager) drawingManager:DrawingManager;
   public error:any
 
-  constructor(public afService:AF, private elRef:ElementRef) {
+  constructor(private msgService:MessageService, public afService:AF, private elRef:ElementRef) {
   }
 
   ngOnInit() {
@@ -28,13 +29,13 @@ export class ParadasCrearComponent implements OnInit {
     if (this.selectedOverlay) {
       this.afService.saveNewStop(name, this.selectedOverlay.position.lat(), this.selectedOverlay.position.lng()).then(() => {
         console.log('bus stop created!', 'bus name:', name)
-        this.setSuccessMsg()
+        this.msgService.showSuccessMessage('Nueva parada guardada exitosamente')
         this.clearFields()
       }).catch((error:any) => {
         if (error) {
           this.error = error;
           console.error(this.error);
-          this.setErrorMsg()
+          this.msgService.showErrorMessage('Error al guardar la nueva parada')
         }
       })
     } else {
@@ -47,14 +48,6 @@ export class ParadasCrearComponent implements OnInit {
       this.selectedOverlay.setMap(null);
       delete this.selectedOverlay;
     }
-  }
-
-  setErrorMsg() {
-    //@TODO
-  }
-
-  setSuccessMsg() {
-    //@TODO
   }
 
   clearFields() {

@@ -3,6 +3,7 @@ import {Router} from '@angular/router';
 import { FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 import { DirectionsRenderer } from '@ngui/map';
 import {DbService} from "../../../services/db.service";
+import {MessageService} from "../../../services/message.service";
 
 @Component({
   selector: 'app-parada-mas-cercana',
@@ -34,7 +35,7 @@ export class ParadaMasCercanaComponent implements OnInit {
   public busMarkerRendered:boolean = false
   stops$:FirebaseListObservable<any>;
 
-  constructor(private db:DbService, private elRef:ElementRef, private router:Router, private cdr:ChangeDetectorRef) {
+  constructor(private msgService:MessageService, private db:DbService, private elRef:ElementRef, private router:Router, private cdr:ChangeDetectorRef) {
   }
 
   ngOnInit() {
@@ -85,7 +86,8 @@ export class ParadaMasCercanaComponent implements OnInit {
   }
 
   onMapError(error) {
-    console.log('code:' + error.code + '\n' + 'message: ' + error.message + '\n');
+    console.error('code:' + error.code + '\n' + 'message: ' + error.message + '\n');
+    this.msgService.showErrorMessage('Error al obtener las coordenadas de su posicion actual!')
   }
 
   deleteAllTraces() {

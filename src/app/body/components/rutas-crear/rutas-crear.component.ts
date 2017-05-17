@@ -1,7 +1,8 @@
 import { Component, ViewChild, OnInit, ElementRef } from '@angular/core';
 import { DrawingManager } from '@ngui/map';
-import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
+import { FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 import {AF} from "../../../../providers/af";
+import { DbService } from '../../../services/db.service'
 
 @Component({
   selector: 'app-rutas-crear',
@@ -23,20 +24,22 @@ export class RutasCrearComponent implements OnInit {
   public map: any
   public firstStop: boolean = false
 
-  constructor(private elRef:ElementRef, public afService:AF, public af: AngularFire) {
-    this.stops$ = af.database.list(`paradas`)
-    this.stops$.subscribe(stops => {
-      stops.forEach(stop => {
-        this.positions.push({
-          latLng: [stop.lat, stop.lng],
-          name: stop.nombre,
-          $key: stop.$key
-        })
-      })
-    })
+  constructor(private db:DbService, private elRef:ElementRef, public afService:AF) {
   }
 
   ngOnInit() {
+    this.db.getStopsList().subscribe(stops$ => {
+      if (!stops$) {
+        this.db.loadStopsList().subscribe(stops => {
+          this.initPositions(stops)
+        })
+      } else {
+        stops$.subscribe(stops => {
+          this.initPositions(stops)
+        })
+      }
+    })
+
     this.drawingManager['initialized$'].subscribe(dm => {
       google.maps.event.addListener(dm, 'overlaycomplete', event => {
         if (event.type !== google.maps.drawing.OverlayType.MARKER) {
@@ -50,6 +53,16 @@ export class RutasCrearComponent implements OnInit {
         }
       });
     });
+  }
+
+  initPositions(stops) {
+    stops.forEach(stop => {
+      this.positions.push({
+        latLng: [stop.lat, stop.lng],
+        name: stop.nombre,
+        $key: stop.$key
+      })
+    })
   }
 
   deleteAllTraces() {

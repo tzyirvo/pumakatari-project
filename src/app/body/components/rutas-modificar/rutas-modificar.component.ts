@@ -1,7 +1,7 @@
 import { Component, ViewChild, OnInit, ElementRef } from '@angular/core';
 import { DrawingManager } from '@ngui/map';
-
-import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
+import { DbService } from '../../../services/db.service'
+import { FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 import {AF} from "../../../../providers/af";
 
 @Component({
@@ -24,21 +24,32 @@ export class RutasModificarComponent implements OnInit {
   public map: any
   public firstStop: boolean = false
 
-  constructor(private elRef:ElementRef, public afService:AF, public af: AngularFire) {
-    this.routes$ = af.database.list(`rutas`)
-    this.stops$ = af.database.list(`paradas`)
-    this.stops$.subscribe(stops => {
-      stops.forEach(stop => {
-        this.positions.push({
-          latLng: [stop.lat, stop.lng],
-          name: stop.nombre,
-          $key: stop.$key
-        })
-      })
-    })
+  constructor(private db:DbService, private elRef:ElementRef, public afService:AF) {
   }
 
   ngOnInit() {
+    this.db.getRoutesList().subscribe(routes$ => {
+      if (!routes$) {
+        this.routes$ = this.db.loadRoutesList()
+      } else {
+        this.routes$ = routes$
+      }
+    })
+
+    this.db.getStopsList().subscribe(stops$ => {
+      if (!stops$) {
+        this.stops$ = this.db.loadStopsList()
+        this.stops$.subscribe(stops => {
+          this.initPositions(stops)
+        })
+      } else {
+        this.stops$ = stops$
+        this.stops$.subscribe(stops => {
+          this.initPositions(stops)
+        })
+      }
+    })
+
     this.drawingManager['initialized$'].subscribe(dm => {
       google.maps.event.addListener(dm, 'overlaycomplete', event => {
         if (event.type !== google.maps.drawing.OverlayType.MARKER) {
@@ -52,6 +63,16 @@ export class RutasModificarComponent implements OnInit {
         }
       });
     });
+  }
+
+  initPositions(stops) {
+    stops.forEach(stop => {
+      this.positions.push({
+        latLng: [stop.lat, stop.lng],
+        name: stop.nombre,
+        $key: stop.$key
+      })
+    })
   }
 
   deleteAllTraces() {
@@ -85,7 +106,7 @@ export class RutasModificarComponent implements OnInit {
       options[i].selected = false
       options[i].classList.remove('selected')
     }
-    this.af.database.object(`rutas/${routeKey}`).subscribe(route => {
+    this.db.getRoute(routeKey).subscribe(route => {
       this.selectedRoute = {
         name: route.nombre,
         $key: route.$key

@@ -32,14 +32,21 @@ export class ParadaMasCercanaComponent implements OnInit {
   public closestBus:any
   public busPosition$:any = []
   public busMarkerRendered:boolean = false
-  stops$:any;
+  stops$:FirebaseListObservable<any>;
 
   constructor(private db:DbService, private elRef:ElementRef, private router:Router, private cdr:ChangeDetectorRef) {
-    this.stops$ = db.getStopsList()
   }
 
   ngOnInit() {
     let queryParams = this.router.routerState.snapshot.url.split('?')
+
+    this.db.getStopsList().subscribe(stops$ => {
+      if (!stops$) {
+        this.stops$ = this.db.loadStopsList()
+      } else {
+        this.stops$ = stops$
+      }
+    })
 
     this.directionsRendererDirective['initialized$'].subscribe(directionsRenderer => {
       this.directionsRenderer = directionsRenderer;
@@ -128,12 +135,10 @@ export class ParadaMasCercanaComponent implements OnInit {
   }
 
   drawMapWithDest(routes) {
-    let initialBusModified = false
     let i
     let j
     let traces
     let polyline
-    let initialStopModified = false
     for (i = 0; i < routes.length && !this.route; i += 1) {
       if (routes[i].paradas) {
         for (j = 0; j < routes[i].paradas.length && !this.route; j += 1) {
@@ -157,68 +162,39 @@ export class ParadaMasCercanaComponent implements OnInit {
         this.overlays.push(polyline)
       }
     }
-    this.db.getStopsList().subscribe(stops => {
-      stops.forEach(stop => {
-        if (this.isStopinRoute(stop.$key, this.route.paradas)) {
-          if (stop.$key === this.destStopKey) {
-            this.destStop = stop
-            this.positions.push({
-              latLng: [stop.lat, stop.lng],
-              name: stop.nombre,
-              $key: stop.$key
-            })
-          } else {
-            this.middlePositions.push({
-              latLng: [stop.lat, stop.lng],
-              name: stop.nombre,
-              $key: stop.$key
-            })
-          }
-          if (!initialStopModified) {
-            this.initialStop = stop
-            initialStopModified = true
-          } else {
-            if (this.getDist(this.curPos, this.initialStop) > this.getDist(this.curPos, stop)) {
-              this.initialStop = stop
-            }
-          }
-
-        }
-      })
-      this.positions.push({
-        latLng: [this.initialStop.lat, this.initialStop.lng],
-        name: this.initialStop.nombre,
-        $key: this.initialStop.$key
-      })
-      for (i = 0; i < this.middlePositions.length; i += 1) {
-        if (this.middlePositions[i].$key === this.initialStop.$key) {
-          this.middlePositions.splice(i, 1)
-        }
+    this.db.getStopsList().subscribe(stops$ => {
+      if (!stops$) {
+        this.db.loadStopsList().subscribe(stops => {
+          this.initializeStopsWithDest(stops)
+        })
+      } else {
+        stops$.subscribe(stops => {
+          this.initializeStopsWithDest(stops)
+        })
       }
-      this.initStopLatLng = '' + this.initialStop.lat + ',' + this.initialStop.lng
-
-      this.db.getBusesPerRoute(this.route.$key).subscribe(buses => {
-        for (i = 0; i < buses.length; i += 1) {
-          if (!initialBusModified) {
-            initialBusModified = true
-            this.closestBus = buses[i]
-          } else if (this.getDist(this.initialStop, this.closestBus.posicion) > this.getDist(this.initialStop, buses[i].posicion)) {
-            this.closestBus = buses[i]
-          }
-        }
-        if (this.closestBus) {
-          this.db.getBusPosition(this.closestBus.$key).subscribe(pos => {
-            this.busPosition$ = [pos]
-          })
-        }
-      })
     })
   }
 
-  drawMapWithOutDest() {
+  initializeStopsWithDest(stops) {
+    let initialBusModified = false
     let initialStopModified = false
-    this.db.getStopsList().subscribe(stops => {
-      stops.forEach(stop => {
+    let i
+    stops.forEach(stop => {
+      if (this.isStopinRoute(stop.$key, this.route.paradas)) {
+        if (stop.$key === this.destStopKey) {
+          this.destStop = stop
+          this.positions.push({
+            latLng: [stop.lat, stop.lng],
+            name: stop.nombre,
+            $key: stop.$key
+          })
+        } else {
+          this.middlePositions.push({
+            latLng: [stop.lat, stop.lng],
+            name: stop.nombre,
+            $key: stop.$key
+          })
+        }
         if (!initialStopModified) {
           this.initialStop = stop
           initialStopModified = true
@@ -227,13 +203,68 @@ export class ParadaMasCercanaComponent implements OnInit {
             this.initialStop = stop
           }
         }
-      })
-      this.initStopLatLng = '' + this.initialStop.lat + ',' + this.initialStop.lng
-      this.positions = [{
-        latLng: [this.initialStop.lat, this.initialStop.lng],
-        name: this.initialStop.nombre
-      }]
+      }
     })
+    this.positions.push({
+      latLng: [this.initialStop.lat, this.initialStop.lng],
+      name: this.initialStop.nombre,
+      $key: this.initialStop.$key
+    })
+    for (i = 0; i < this.middlePositions.length; i += 1) {
+      if (this.middlePositions[i].$key === this.initialStop.$key) {
+        this.middlePositions.splice(i, 1)
+      }
+    }
+    this.initStopLatLng = '' + this.initialStop.lat + ',' + this.initialStop.lng
+
+    this.db.getBusesPerRoute(this.route.$key).subscribe(buses => {
+      for (i = 0; i < buses.length; i += 1) {
+        if (!initialBusModified) {
+          initialBusModified = true
+          this.closestBus = buses[i]
+        } else if (this.getDist(this.initialStop, this.closestBus.posicion) > this.getDist(this.initialStop, buses[i].posicion)) {
+          this.closestBus = buses[i]
+        }
+      }
+      if (this.closestBus) {
+        this.db.getBusPosition(this.closestBus.$key).subscribe(pos => {
+          this.busPosition$ = [pos]
+        })
+      }
+    })
+  }
+
+  drawMapWithOutDest() {
+    this.db.getStopsList().subscribe(stops$ => {
+      if (!stops$) {
+        this.db.loadStopsList().subscribe(stops => {
+          this.initializeStopsWithOutDest(stops)
+        })
+      } else {
+        stops$.subscribe(stops => {
+          this.initializeStopsWithOutDest(stops)
+        })
+      }
+    })
+  }
+
+  initializeStopsWithOutDest(stops) {
+    let initialStopModified = false
+    stops.forEach(stop => {
+      if (!initialStopModified) {
+        this.initialStop = stop
+        initialStopModified = true
+      } else {
+        if (this.getDist(this.curPos, this.initialStop) > this.getDist(this.curPos, stop)) {
+          this.initialStop = stop
+        }
+      }
+    })
+    this.initStopLatLng = '' + this.initialStop.lat + ',' + this.initialStop.lng
+    this.positions = [{
+      latLng: [this.initialStop.lat, this.initialStop.lng],
+      name: this.initialStop.nombre
+    }]
   }
 
   isStopinRoute(stopKey, stops) {

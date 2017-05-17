@@ -1,6 +1,7 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
-import { AngularFire, FirebaseListObservable } from 'angularfire2';
-import { Subject } from 'rxjs/Subject';
+import { FirebaseListObservable } from 'angularfire2';
+import { DbService } from '../../../services/db.service'
+
 
 @Component({
   selector: 'app-inicio',
@@ -10,11 +11,17 @@ export class InicioComponent implements OnInit {
 
   items: FirebaseListObservable<any[]>;
 
-  constructor(af: AngularFire, private elRef:ElementRef) {
-    this.items = af.database.list(`rutas`);
+  constructor(private db:DbService, private elRef:ElementRef) {
   }
 
   ngOnInit() {
+    this.db.getRoutesList().subscribe(routes$ => {
+      if (!routes$) {
+        this.items = this.db.loadRoutesList()
+      } else {
+        this.items = routes$
+      }
+    })
   }
 
   ngAfterViewInit() {

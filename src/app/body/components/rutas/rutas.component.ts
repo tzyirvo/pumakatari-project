@@ -1,7 +1,7 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
+import { FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 import "rxjs/add/operator/map";
+import { DbService } from '../../../services/db.service'
 
 @Component({
   selector: 'app-rutas',
@@ -19,9 +19,17 @@ export class RutasComponent implements OnInit {
   public map: any
   public overlays: any = []
 
-  constructor(public af: AngularFire, private elRef:ElementRef) {
-    this.routes$ = af.database.list(`rutas`)
-    this.routes$.subscribe(console.log)
+  constructor(private db:DbService, private elRef:ElementRef) {
+  }
+
+  ngOnInit() {
+    this.db.getRoutesList().subscribe(routes$ => {
+      if (!routes$) {
+        this.routes$ = this.db.loadRoutesList()
+      } else {
+        this.routes$ = routes$
+      }
+    })
   }
 
   deleteAllTraces() {
@@ -49,7 +57,7 @@ export class RutasComponent implements OnInit {
     this.deleteAllTraces()
     this.firstStop = false
     this.positions = []
-    this.af.database.object(`rutas/${routeKey}`).subscribe(route => {
+    this.db.getRoute(routeKey).subscribe(route => {
       if (route.trazos) {
         for (i = 0; i < route.trazos.length; i += 1) {
           traces = []
@@ -66,7 +74,7 @@ export class RutasComponent implements OnInit {
       }
       if (route.paradas) {
         for (i = 0; i < route.paradas.length; i += 1) {
-          this.af.database.object(`paradas/` + route.paradas[i]).subscribe(stop => {
+          this.db.getStop(route.paradas[i]).subscribe(stop => {
             this.positions.push({
               latLng: [stop.lat, stop.lng],
               name: stop.nombre
@@ -79,9 +87,6 @@ export class RutasComponent implements OnInit {
         }
       }
     })
-  }
-
-  ngOnInit() {
   }
 
   onMapReady(event) {

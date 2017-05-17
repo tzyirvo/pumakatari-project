@@ -3,6 +3,7 @@ import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'a
 import { Store } from '@ngrx/store';
 import * as fromRoot from '../reducers/';
 import * as db from '../actions/db.action';
+import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class DbService {
@@ -13,11 +14,11 @@ export class DbService {
     this.db = af.database
   }
 
-  getRoutesList() {
+  getRoutesList():Observable<FirebaseListObservable<any>> {
     return this.store.select(fromRoot.getRoutes)
   }
 
-  loadRoutesList() {
+  loadRoutesList():FirebaseListObservable<any> {
     let routes$ = this.loadRoutesListFromDb()
     routes$.subscribe(() => {
       this.store.dispatch(new db.LoadDbRoutes(routes$ as FirebaseListObservable<any>))
@@ -25,11 +26,15 @@ export class DbService {
     return routes$
   }
 
-  getStopsList() {
+  private loadRoutesListFromDb():FirebaseListObservable<any> {
+    return this.db.list(`rutas`)
+  }
+
+  getStopsList():Observable<FirebaseListObservable<any>> {
     return this.store.select(fromRoot.getStops)
   }
 
-  loadStopsList() {
+  loadStopsList():FirebaseListObservable<any> {
     let stops$ = this.loadStopsListFromDb()
     stops$.subscribe(() => {
       this.store.dispatch(new db.LoadDbStops(stops$ as FirebaseListObservable<any>))
@@ -37,11 +42,7 @@ export class DbService {
     return stops$
   }
 
-  private loadRoutesListFromDb() {
-    return this.db.list(`rutas`)
-  }
-
-  private loadStopsListFromDb() {
+  private loadStopsListFromDb():FirebaseListObservable<any> {
     return this.db.list(`paradas`)
   }
 
@@ -51,22 +52,6 @@ export class DbService {
 
   getStop(stopKey:string):FirebaseObjectObservable<any> {
     return this.db.object(`paradas/${stopKey}`)
-  }
-
-  getPersonnelList():FirebaseListObservable<any> {
-    return this.db.list(`personal`)
-  }
-
-  getPersonnel(personnelKey:string):FirebaseObjectObservable<any> {
-    return this.db.object(`personal/${personnelKey}`)
-  }
-
-  getBusesList():FirebaseListObservable<any> {
-    return this.db.list(`buses`)
-  }
-
-  getBus(busKey:string):FirebaseObjectObservable<any> {
-    return this.db.object(`buses/${busKey}`)
   }
 
   getBusesPerRoute(route:string):FirebaseListObservable<any> {

@@ -1,6 +1,7 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
-import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
+import { FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 import {Router} from "@angular/router";
+import { DbService } from '../../../services/db.service'
 
 @Component({
   selector: 'app-proximo-bus',
@@ -8,13 +9,19 @@ import {Router} from "@angular/router";
 })
 export class ProximoBusComponent implements OnInit {
 
-  stops$: FirebaseListObservable<any[]>;
+  stops$:FirebaseListObservable<any[]>;
 
-  constructor(public af: AngularFire, private router:Router, private elRef:ElementRef) {
-    this.stops$ = af.database.list(`paradas`)
+  constructor(private db:DbService, private router:Router, private elRef:ElementRef) {
   }
 
   ngOnInit() {
+    this.db.getStopsList().subscribe(stops$ => {
+      if (!stops$) {
+        this.stops$ = this.db.loadStopsList()
+      } else {
+        this.stops$ = stops$
+      }
+    })
   }
 
   ngAfterViewInit() {
@@ -23,8 +30,8 @@ export class ProximoBusComponent implements OnInit {
     classList.add('other-tab')
   }
 
-  selectStop(stop: string) {
-    this.router.navigate(['parada-mas-cercana'], { queryParams: { stop: stop } });
+  selectStop(stopKey:string) {
+    this.router.navigate(['parada-mas-cercana'], {queryParams: {stop: stopKey}});
   }
 
 }

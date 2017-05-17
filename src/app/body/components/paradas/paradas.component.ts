@@ -1,6 +1,6 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
+import { FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
+import { DbService } from '../../../services/db.service'
 
 @Component({
   selector: 'app-paradas',
@@ -8,30 +8,34 @@ import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'a
 })
 export class ParadasComponent implements OnInit {
 
-  public iconUrl: string = 'assets/images/marker.png';
+  public iconUrl:string = 'assets/images/marker.png';
+  stops$:FirebaseListObservable<any[]>;
+  public positions:any = []
+  public center:any = "-16.500393,-68.123077"
+  public zoom:any = 16
+  public icon:string = "assets/images/marker.png"
 
-  stops$: FirebaseListObservable<any[]>;
-  public positions: any = []
-  public center: any = "-16.500393,-68.123077"
-  public zoom: any = 16
-  public icon: string = "assets/images/marker.png"
-
-  constructor(public af: AngularFire, private elRef:ElementRef) {
-    this.stops$ = af.database.list(`paradas`)
+  constructor(private db:DbService, private elRef:ElementRef) {
   }
 
-  updateStop(stop: string) {
-    this.af.database.object(`paradas/${stop}`).subscribe(stop => {
-      console.log(stop)
+  ngOnInit() {
+    this.db.getStopsList().subscribe(stops$ => {
+      if (!stops$) {
+        this.stops$ = this.db.loadStopsList()
+      } else {
+        this.stops$ = stops$
+      }
+    })
+  }
+
+  updateStop(stopKey:string) {
+    this.db.getStop(stopKey).subscribe(stop => {
       this.center = '' + stop.lat + ',' + stop.lng
       this.positions = [{
         latLng: [stop.lat, stop.lng],
         name: stop.nombre
       }]
     })
-  }
-
-  ngOnInit() {
   }
 
   clicked(event) {

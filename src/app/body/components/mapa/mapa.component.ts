@@ -16,15 +16,6 @@ export class MapaComponent implements OnInit {
   constructor(private db:DbService, private elRef:ElementRef) {
   }
 
-  setStopsPositions(stops) {
-    stops.forEach(stop => {
-      this.positions.push({
-        name: stop.nombre,
-        latLng: [stop.lat, stop.lng]
-      })
-    })
-  }
-
   ngOnInit() {
     this.db.getStopsList().subscribe(stops$ => {
       if (!stops$) {
@@ -36,6 +27,15 @@ export class MapaComponent implements OnInit {
           this.setStopsPositions(stops)
         })
       }
+    })
+  }
+
+  setStopsPositions(stops) {
+    stops.forEach(stop => {
+      this.positions.push({
+        name: stop.nombre,
+        latLng: [stop.lat, stop.lng]
+      })
     })
   }
 

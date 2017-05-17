@@ -8,11 +8,12 @@ import {AF} from "../../../../providers/af";
   templateUrl: './paradas-crear.component.html'
 })
 export class ParadasCrearComponent implements OnInit {
-  selectedOverlay: any;
-  @ViewChild(DrawingManager) drawingManager: DrawingManager;
-  public error: any
+  selectedOverlay:any;
+  @ViewChild(DrawingManager) drawingManager:DrawingManager;
+  public error:any
 
-  constructor(public afService:AF, private elRef:ElementRef) { }
+  constructor(public afService:AF, private elRef:ElementRef) {
+  }
 
   ngOnInit() {
     this.drawingManager['initialized$'].subscribe(dm => {
@@ -32,7 +33,7 @@ export class ParadasCrearComponent implements OnInit {
       }).catch((error:any) => {
         if (error) {
           this.error = error;
-          console.log(this.error);
+          console.error(this.error);
           this.setErrorMsg()
         }
       })

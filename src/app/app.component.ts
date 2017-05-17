@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { DbService } from './services/db.service'
 import { Store } from '@ngrx/store';
 import * as fromRoot from './reducers/';
 import * as db from './actions/db.action';
@@ -11,7 +10,7 @@ import {LatLng} from "./models/latlng";
 })
 export class AppComponent {
 
-  constructor(private dbService:DbService, private store:Store<fromRoot.State>) {
+  constructor(private store:Store<fromRoot.State>) {
   }
 
   ngOnInit() {
@@ -28,6 +27,6 @@ export class AppComponent {
   }
 
   onMapError(error) {
-    console.log('code:' + error.code + '\n' + 'message: ' + error.message + '\n');
+    console.error('code:' + error.code + '\n' + 'message: ' + error.message + '\n');
   }
 }

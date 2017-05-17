@@ -130,12 +130,11 @@ export class RutasCrearComponent implements OnInit {
   createRoute(event) {
     this.afService.createRoute(this.overlays, this.routeName, this.selectedPositions).then(() => {
       this.resetValues()
-      console.log('bus stop created!', 'route name:', this.routeName)
       this.msgService.showSuccessMessage('Nueva ruta creada exitosamente!')
     }).catch((error:any) => {
       if (error) {
         this.error = error;
-        console.log(this.error);
+        console.error(this.error);
         this.msgService.showErrorMessage('Error al crear la nueva ruta')
       }
     })
@@ -147,7 +146,6 @@ export class RutasCrearComponent implements OnInit {
 
   onMapReady(event) {
     this.map = event
-    console.log(event)
   }
 
   ngAfterViewInit() {

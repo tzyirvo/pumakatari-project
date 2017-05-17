@@ -2,6 +2,7 @@ import { Component, OnInit, ElementRef } from '@angular/core';
 import { FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 import {AF} from "../../../../providers/af";
 import { DbService } from '../../../services/db.service'
+import {MessageService} from "../../../services/message.service";
 
 @Component({
   selector: 'app-paradas-eliminar',
@@ -9,10 +10,11 @@ import { DbService } from '../../../services/db.service'
 })
 export class ParadasEliminarComponent implements OnInit {
 
-  stops$: FirebaseListObservable<any[]>
-  stopToDeleteKey: string = ''
+  stops$:FirebaseListObservable<any[]>
+  stopToDeleteKey:string = ''
+  error:any = null
 
-  constructor(private db:DbService, public afService:AF, private elRef:ElementRef) {
+  constructor(private msgService:MessageService, private db:DbService, public afService:AF, private elRef:ElementRef) {
   }
 
   ngOnInit() {
@@ -31,7 +33,15 @@ export class ParadasEliminarComponent implements OnInit {
 
   deleteStop() {
     if (this.stopToDeleteKey !== '') {
-      this.afService.deleteStop(this.stopToDeleteKey)
+      this.afService.deleteStop(this.stopToDeleteKey).then(() => {
+        this.msgService.showSuccessMessage('Parada eliminada exitosamente!')
+      }).catch((error:any) => {
+        if (error) {
+          this.error = error;
+          console.error(this.error);
+          this.msgService.showErrorMessage('Error al eliminar la parada.')
+        }
+      })
     }
   }
 

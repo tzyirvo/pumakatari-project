@@ -91,7 +91,6 @@ export class RutasComponent implements OnInit {
 
   onMapReady(event) {
     this.map = event
-    console.log(event)
   }
 
   clicked(event) {

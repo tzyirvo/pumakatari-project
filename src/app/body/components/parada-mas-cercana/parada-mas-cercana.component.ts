@@ -57,7 +57,6 @@ export class ParadaMasCercanaComponent implements OnInit {
       queryParams = queryParams[1].split('=')
       this.destStopKey = queryParams[1]
     }
-    console.log('Parada destino:', this.destStopKey)
 
     this.getCurrentPosition()
   }
@@ -76,8 +75,6 @@ export class ParadaMasCercanaComponent implements OnInit {
       this.center = '' + this.curPos.lat + ',' + this.curPos.lng
       this.centerUpdated = true
     }
-
-    console.log('Posicion actual:', this.curPos)
 
     this.originLatLng = '' + this.curPos.lat + ',' + this.curPos.lng
     this.initStopLatLng = '' + this.curPos.lat + ',' + this.curPos.lng

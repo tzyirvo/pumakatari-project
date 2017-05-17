@@ -209,12 +209,11 @@ export class RutasModificarComponent implements OnInit {
   modifyRoute(event) {
     this.afService.modifyRoute(this.overlays, this.selectedRoute, this.selectedPositions).then(() => {
       this.resetValues()
-      console.log('bus stop modified!', 'route key:', this.selectedRoute.$key)
       this.msgService.showSuccessMessage('Ruta modificada exitosamente!')
     }).catch((error:any) => {
       if (error) {
         this.error = error;
-        console.log(this.error);
+        console.error(this.error);
         this.msgService.showErrorMessage('Error al modificar la ruta')
       }
     })
@@ -226,7 +225,6 @@ export class RutasModificarComponent implements OnInit {
 
   onMapReady(event) {
     this.map = event
-    console.log(event)
   }
 
   isStopinRoute(stopKey, paradas) {

@@ -27,7 +27,7 @@ export class IniciarSesionComponent implements OnInit {
       .catch((error:any) => {
         if (error) {
           this.error = error;
-          console.log(this.error);
+          console.error(this.error);
         }
       });
   }

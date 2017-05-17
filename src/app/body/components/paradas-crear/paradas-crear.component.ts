@@ -28,7 +28,6 @@ export class ParadasCrearComponent implements OnInit {
   saveStop(event, name) {
     if (this.selectedOverlay) {
       this.afService.saveNewStop(name, this.selectedOverlay.position.lat(), this.selectedOverlay.position.lng()).then(() => {
-        console.log('bus stop created!', 'bus name:', name)
         this.msgService.showSuccessMessage('Nueva parada guardada exitosamente')
         this.clearFields()
       }).catch((error:any) => {

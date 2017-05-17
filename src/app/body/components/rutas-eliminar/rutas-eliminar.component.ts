@@ -3,6 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 import {AF} from "../../../../providers/af";
 import { DbService } from '../../../services/db.service'
+import {MessageService} from "../../../services/message.service";
 
 @Component({
   selector: 'app-rutas-eliminar',
@@ -10,10 +11,11 @@ import { DbService } from '../../../services/db.service'
 })
 export class RutasEliminarComponent implements OnInit {
 
-  routes$: FirebaseListObservable<any[]>
-  routeToDeleteKey: string = ''
+  routes$:FirebaseListObservable<any[]>
+  routeToDeleteKey:string = ''
+  error:any = null
 
-  constructor(private db:DbService, public afService:AF, private elRef:ElementRef) {
+  constructor(private msgService:MessageService, private db:DbService, public afService:AF, private elRef:ElementRef) {
   }
 
   ngOnInit() {
@@ -32,7 +34,15 @@ export class RutasEliminarComponent implements OnInit {
 
   deleteRoute() {
     if (this.routeToDeleteKey !== '') {
-      this.afService.deleteRoute(this.routeToDeleteKey)
+      this.afService.deleteRoute(this.routeToDeleteKey).then(() => {
+        this.msgService.showSuccessMessage('Ruta eliminada exitosamente!')
+      }).catch((error:any) => {
+        if (error) {
+          this.error = error;
+          console.error(this.error);
+          this.msgService.showErrorMessage('Error al eliminar la ruta.')
+        }
+      })
     }
   }
 

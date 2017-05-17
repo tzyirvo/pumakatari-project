@@ -66,7 +66,6 @@ export class ParadasModificarComponent implements OnInit {
       this.resetValues()
       this.afService.modifyStop(this.stop).then(() => {
         this.resetValues()
-        console.log('bus stop modified!', 'stop key:', this.stop.key)
         this.msgService.showSuccessMessage('Parada modificada exitosamente!')
       }).catch((error:any) => {
         if (error) {

@@ -2,6 +2,7 @@ import { Component, OnInit, ElementRef } from '@angular/core';
 import { FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 import "rxjs/add/operator/map";
 import { DbService } from '../../../services/db.service'
+import {Parada} from "../../../models/parada";
 
 @Component({
   selector: 'app-rutas',
@@ -75,13 +76,11 @@ export class RutasComponent implements OnInit {
       if (route.paradas) {
         for (i = 0; i < route.paradas.length; i += 1) {
           this.db.getStop(route.paradas[i]).subscribe(stop => {
-            this.positions.push({
-              latLng: [stop.lat, stop.lng],
-              name: stop.nombre
-            })
+            let curStop = new Parada(stop)
+            this.positions.push(curStop.getPositionObject())
             if (!this.firstStop) {
               this.firstStop = true
-              this.center = '' + stop.lat + ',' + stop.lng
+              this.center = curStop.getPositionText()
             }
           })
         }

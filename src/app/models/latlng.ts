@@ -1,5 +1,5 @@
 export class LatLng {
-  constructor(public lat:number, public lng:number) {
+  constructor(private lat:number, private lng:number) {
   }
 
   getLat():number {
@@ -16,5 +16,16 @@ export class LatLng {
 
   setLng(lng:number) {
     this.lng = lng;
+  }
+
+  getLanLngObject():any {
+    return {
+      lat: this.getLat(),
+      lng: this.getLng()
+    }
+  }
+
+  getLatLng():any {
+    return [this.getLat(), this.getLng()]
   }
 }

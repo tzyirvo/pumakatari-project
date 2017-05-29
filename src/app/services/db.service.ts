@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import * as fromRoot from '../reducers/';
 import * as db from '../actions/db.action';
 import {Observable} from 'rxjs/Observable';
+import {LatLng} from "../models/latlng";
 
 @Injectable()
 export class DbService {
@@ -65,6 +66,27 @@ export class DbService {
 
   getBusPosition(plateKey:string):FirebaseObjectObservable<any> {
     return this.db.object(`buses/${plateKey}/posicion`)
+  }
+
+  getCurLocation():Observable<LatLng> {
+    return this.store.select(fromRoot.getCurrentLocation)
+  }
+
+  loadCurLocation():any {
+    let me = this
+    navigator.geolocation.getCurrentPosition(
+      me.onMapWatchSuccess.bind(me),
+      me.onMapError.bind(me),
+      {enableHighAccuracy: true}
+    );
+  }
+
+  onMapWatchSuccess(position) {
+    this.store.dispatch(new db.loadCurLatLng(new LatLng(position.coords.latitude, position.coords.longitude)))
+  }
+
+  onMapError(error) {
+    console.error('code:' + error.code + '\n' + 'message: ' + error.message + '\n');
   }
 
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { FirebaseListObservable } from 'angularfire2';
 import { DbService } from '../../../services/db.service'
+import {Parada} from "../../../models/parada";
 
 @Component({
   selector: 'app-mapa',
@@ -32,10 +33,8 @@ export class MapaComponent implements OnInit {
 
   setStopsPositions(stops) {
     stops.forEach(stop => {
-      this.positions.push({
-        name: stop.nombre,
-        latLng: [stop.lat, stop.lng]
-      })
+      let curStop = new Parada(stop)
+      this.positions.push(curStop.getPositionObject())
     })
   }
 

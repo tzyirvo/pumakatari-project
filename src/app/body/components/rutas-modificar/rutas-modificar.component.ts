@@ -4,6 +4,7 @@ import { DbService } from '../../../services/db.service'
 import { FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 import {AF} from "../../../../providers/af";
 import {MessageService} from "../../../services/message.service";
+import {Parada} from "../../../models/parada";
 
 @Component({
   selector: 'app-rutas-modificar',
@@ -68,11 +69,8 @@ export class RutasModificarComponent implements OnInit {
 
   initPositions(stops) {
     stops.forEach(stop => {
-      this.positions.push({
-        latLng: [stop.lat, stop.lng],
-        name: stop.nombre,
-        $key: stop.$key
-      })
+      let curStop = new Parada(stop)
+      this.positions.push(curStop.getPositionObject())
     })
   }
 

@@ -4,6 +4,7 @@ import {AF} from "../../../../providers/af";
 import { FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 import { DbService } from '../../../services/db.service'
 import {MessageService} from "../../../services/message.service";
+import {Parada} from "../../../models/parada";
 
 @Component({
   selector: 'app-paradas-modificar',
@@ -33,17 +34,15 @@ export class ParadasModificarComponent implements OnInit {
 
   updateStop(event, key) {
     this.db.getStop(key).subscribe(stop => {
+      let curStop = new Parada(stop)
       this.stop = {
         key: stop.$key,
         lat: stop.lat,
         lng: stop.lng,
         nombre: stop.nombre
       }
-      this.center = '' + stop.lat + ',' + stop.lng
-      this.positions = [{
-        latLng: [stop.lat, stop.lng],
-        name: stop.nombre
-      }]
+      this.center = curStop.getPositionText()
+      this.positions = [curStop.getPositionObject()]
       this.zoom = 18
     })
   }

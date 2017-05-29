@@ -1,6 +1,7 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 import { DbService } from '../../../services/db.service'
+import {Parada} from "../../../models/parada";
 
 @Component({
   selector: 'app-paradas',
@@ -30,11 +31,9 @@ export class ParadasComponent implements OnInit {
 
   updateStop(stopKey:string) {
     this.db.getStop(stopKey).subscribe(stop => {
-      this.center = '' + stop.lat + ',' + stop.lng
-      this.positions = [{
-        latLng: [stop.lat, stop.lng],
-        name: stop.nombre
-      }]
+      let curStop = new Parada(stop)
+      this.center = curStop.getPositionText()
+      this.positions = [curStop.getPositionObject()]
     })
   }
 

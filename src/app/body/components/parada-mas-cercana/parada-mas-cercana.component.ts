@@ -4,6 +4,7 @@ import { FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 import { DirectionsRenderer } from '@ngui/map';
 import {DbService} from "../../../services/db.service";
 import {MessageService} from "../../../services/message.service";
+import {Parada} from "../../../models/parada";
 
 @Component({
   selector: 'app-parada-mas-cercana',
@@ -58,17 +59,17 @@ export class ParadaMasCercanaComponent implements OnInit {
       this.destStopKey = queryParams[1]
     }
 
-    this.getCurrentPosition()
+    this.db.getCurLocation().subscribe(curLocation => {
+      if (curLocation) {
+        this.onMapWatchSuccess(curLocation.getLat(), curLocation.getLng())
+      }
+    })
   }
 
-  getCurrentPosition() {
-    navigator.geolocation.getCurrentPosition(this.onMapWatchSuccess.bind(this), this.onMapError.bind(this), {enableHighAccuracy: true});
-  }
-
-  onMapWatchSuccess(position) {
+  onMapWatchSuccess(lat, lng) {
     this.curPos = {
-      lat: position.coords.latitude,
-      lng: position.coords.longitude
+      lat: lat,
+      lng: lng
     }
 
     if (!this.centerUpdated) {
@@ -80,11 +81,6 @@ export class ParadaMasCercanaComponent implements OnInit {
     this.initStopLatLng = '' + this.curPos.lat + ',' + this.curPos.lng
 
     this.initRoutes()
-  }
-
-  onMapError(error) {
-    console.error('code:' + error.code + '\n' + 'message: ' + error.message + '\n');
-    this.msgService.showErrorMessage('Error al obtener las coordenadas de su posicion actual!')
   }
 
   deleteAllTraces() {
@@ -179,20 +175,13 @@ export class ParadaMasCercanaComponent implements OnInit {
     let initialStopModified = false
     let i
     stops.forEach(stop => {
-      if (this.isStopinRoute(stop.$key, this.route.paradas)) {
-        if (stop.$key === this.destStopKey) {
+      let curStop = new Parada(stop)
+      if (this.isStopinRoute(curStop.getKey(), this.route.paradas)) {
+        if (curStop.getKey() === this.destStopKey) {
           this.destStop = stop
-          this.positions.push({
-            latLng: [stop.lat, stop.lng],
-            name: stop.nombre,
-            $key: stop.$key
-          })
+          this.positions.push(curStop.getPositionObject())
         } else {
-          this.middlePositions.push({
-            latLng: [stop.lat, stop.lng],
-            name: stop.nombre,
-            $key: stop.$key
-          })
+          this.middlePositions.push(curStop.getPositionObject())
         }
         if (!initialStopModified) {
           this.initialStop = stop
@@ -250,6 +239,7 @@ export class ParadaMasCercanaComponent implements OnInit {
   initializeStopsWithOutDest(stops) {
     let initialStopModified = false
     stops.forEach(stop => {
+      let curStop = new Parada(stop)
       if (!initialStopModified) {
         this.initialStop = stop
         initialStopModified = true

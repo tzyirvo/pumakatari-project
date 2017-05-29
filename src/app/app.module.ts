@@ -68,8 +68,8 @@ import { ErrorComponent } from './error/error.component'
       authDomain: "pumakatari-project.firebaseapp.com",
       databaseURL: "https://pumakatari-project.firebaseio.com",
       //projectId: "pumakatari-project",
-      storageBucket: "pumakatari-project.appspot.com",
-      messagingSenderId: "147612482308"
+      storageBucket: "pumakatari-project.appspot.com"/*,
+      messagingSenderId: "147612482308"*/
     }),
     FormsModule,
     NguiMapModule.forRoot({apiUrl: 'https://maps.google.com/maps/api/js?key=AIzaSyBJ4KQ9Toja55Lqf78LzRDZgEkdBPufSQ8&sensor=false&libraries=drawing'}),

@@ -13,7 +13,9 @@
     "cordova:build": "ng build --target=production --environment=prod --output-path cordova/www/ --base-href .",
     "cordova:browser": "cordova run browser",
     "cordova:android": "cordova build android",
-    "firebase:deploy": "firebase deploy"
+    "firebase:deploy": "firebase deploy",
+    "format:fix": "pretty-quick --staged",
+    "lint": "ng lint"
   },
   "private": true,
   "dependencies": {
@@ -45,6 +47,10 @@
     "@types/node": "^6.0.42",
     "angular-cli": "1.0.0-beta.28.3",
     "codelyzer": "~2.0.0-beta.1",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb-base": "^13.2.0",
+    "eslint-plugin-import": "^2.18.2",
+    "husky": "^3.0.2",
     "jasmine-core": "2.5.2",
     "jasmine-spec-reporter": "2.5.0",
     "karma": "1.2.0",
@@ -53,11 +59,26 @@
     "karma-jasmine": "^1.0.2",
     "karma-remap-istanbul": "^0.2.1",
     "node-sass": "^4.5.2",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^1.18.2",
+    "pretty-quick": "^1.11.1",
     "protractor": "~4.0.13",
     "raw-loader": "^0.5.1",
     "sass-loader": "^6.0.3",
     "ts-node": "1.2.1",
     "tslint": "^4.3.0",
     "typescript": "~2.0.3"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.{js,ts,tsx}": [
+      "format:fix",
+      "lint",
+      "git add"
+    ]
   }
 }

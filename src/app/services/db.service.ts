@@ -1,92 +1,104 @@
-import { Injectable } from '@angular/core';
-import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
-import { Store } from '@ngrx/store';
-import * as fromRoot from '../reducers/';
-import * as db from '../actions/db.action';
-import {Observable} from 'rxjs/Observable';
-import {LatLng} from "../models/latlng";
+import { Injectable } from "@angular/core";
+import {
+  AngularFire,
+  FirebaseListObservable,
+  FirebaseObjectObservable
+} from "angularfire2";
+import { Store } from "@ngrx/store";
+import * as fromRoot from "../reducers/";
+import * as db from "../actions/db.action";
+import { Observable } from "rxjs/Observable";
+import { LatLng } from "../models/latlng";
 
 @Injectable()
 export class DbService {
+  private db: any;
 
-  private db:any
-
-  constructor(private af:AngularFire, private store:Store<fromRoot.State>) {
-    this.db = af.database
+  constructor(private af: AngularFire, private store: Store<fromRoot.State>) {
+    this.db = af.database;
   }
 
-  getRoutesList():Observable<FirebaseListObservable<any>> {
-    return this.store.select(fromRoot.getRoutes)
+  getRoutesList(): Observable<FirebaseListObservable<any>> {
+    return this.store.select(fromRoot.getRoutes);
   }
 
-  loadRoutesList():FirebaseListObservable<any> {
-    let routes$ = this.loadRoutesListFromDb()
+  loadRoutesList(): FirebaseListObservable<any> {
+    const routes$ = this.loadRoutesListFromDb();
     routes$.subscribe(() => {
-      this.store.dispatch(new db.LoadDbRoutes(routes$ as FirebaseListObservable<any>))
-    })
-    return routes$
+      this.store.dispatch(
+        new db.LoadDbRoutes(routes$ as FirebaseListObservable<any>)
+      );
+    });
+    return routes$;
   }
 
-  private loadRoutesListFromDb():FirebaseListObservable<any> {
-    return this.db.list(`rutas`)
+  private loadRoutesListFromDb(): FirebaseListObservable<any> {
+    return this.db.list(`rutas`);
   }
 
-  getStopsList():Observable<FirebaseListObservable<any>> {
-    return this.store.select(fromRoot.getStops)
+  getStopsList(): Observable<FirebaseListObservable<any>> {
+    return this.store.select(fromRoot.getStops);
   }
 
-  loadStopsList():FirebaseListObservable<any> {
-    let stops$ = this.loadStopsListFromDb()
+  loadStopsList(): FirebaseListObservable<any> {
+    const stops$ = this.loadStopsListFromDb();
     stops$.subscribe(() => {
-      this.store.dispatch(new db.LoadDbStops(stops$ as FirebaseListObservable<any>))
-    })
-    return stops$
+      this.store.dispatch(
+        new db.LoadDbStops(stops$ as FirebaseListObservable<any>)
+      );
+    });
+    return stops$;
   }
 
-  private loadStopsListFromDb():FirebaseListObservable<any> {
-    return this.db.list(`paradas`)
+  private loadStopsListFromDb(): FirebaseListObservable<any> {
+    return this.db.list(`paradas`);
   }
 
-  getRoute(routeKey:string):FirebaseObjectObservable<any> {
-    return this.db.object(`rutas/${routeKey}`)
+  getRoute(routeKey: string): FirebaseObjectObservable<any> {
+    return this.db.object(`rutas/${routeKey}`);
   }
 
-  getStop(stopKey:string):FirebaseObjectObservable<any> {
-    return this.db.object(`paradas/${stopKey}`)
+  getStop(stopKey: string): FirebaseObjectObservable<any> {
+    return this.db.object(`paradas/${stopKey}`);
   }
 
-  getBusesPerRoute(route:string):FirebaseListObservable<any> {
+  getBusesPerRoute(route: string): FirebaseListObservable<any> {
     return this.db.list(`buses`, {
       query: {
-        orderByChild: 'ruta',
+        orderByChild: "ruta",
         equalTo: route
       }
-    })
+    });
   }
 
-  getBusPosition(plateKey:string):FirebaseObjectObservable<any> {
-    return this.db.object(`buses/${plateKey}/posicion`)
+  getBusPosition(plateKey: string): FirebaseObjectObservable<any> {
+    return this.db.object(`buses/${plateKey}/posicion`);
   }
 
-  getCurLocation():Observable<LatLng> {
-    return this.store.select(fromRoot.getCurrentLocation)
+  getCurLocation(): Observable<LatLng> {
+    return this.store.select(fromRoot.getCurrentLocation);
   }
 
-  loadCurLocation():any {
-    let me = this
+  loadCurLocation(): any {
+    const me = this;
     navigator.geolocation.getCurrentPosition(
       me.onMapWatchSuccess.bind(me),
       me.onMapError.bind(me),
-      {enableHighAccuracy: true}
+      { enableHighAccuracy: true }
     );
   }
 
   onMapWatchSuccess(position) {
-    this.store.dispatch(new db.loadCurLatLng(new LatLng(position.coords.latitude, position.coords.longitude)))
+    this.store.dispatch(
+      new db.LoadCurLatLng(
+        new LatLng(position.coords.latitude, position.coords.longitude)
+      )
+    );
   }
 
   onMapError(error) {
-    console.error('code:' + error.code + '\n' + 'message: ' + error.message + '\n');
+    console.error(
+      "code:" + error.code + "\n" + "message: " + error.message + "\n"
+    );
   }
-
 }

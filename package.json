@@ -14,7 +14,7 @@
     "cordova:browser": "cordova run browser",
     "cordova:android": "cordova build android",
     "firebase:deploy": "firebase deploy",
-    "format:fix": "pretty-quick --staged",
+    "format:fix": "pretty-quick — staged",
     "lint": "ng lint"
   },
   "private": true,
@@ -72,14 +72,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "run-s format:fix lint"
     }
-  },
-  "lint-staged": {
-    "src/**/*.{js,ts,tsx}": [
-      "format:fix",
-      "lint",
-      "git add"
-    ]
   }
 }

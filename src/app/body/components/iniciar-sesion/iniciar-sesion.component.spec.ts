@@ -1,19 +1,18 @@
 /* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { By } from "@angular/platform-browser";
+import { DebugElement } from "@angular/core";
 
-import { IniciarSesionComponent } from './iniciar-sesion.component';
+import { IniciarSesionComponent } from "./iniciar-sesion.component";
 
-describe('IniciarSesionComponent', () => {
+describe("IniciarSesionComponent", () => {
   let component: IniciarSesionComponent;
   let fixture: ComponentFixture<IniciarSesionComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ IniciarSesionComponent ]
-    })
-    .compileComponents();
+      declarations: [IniciarSesionComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -22,7 +21,7 @@ describe('IniciarSesionComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

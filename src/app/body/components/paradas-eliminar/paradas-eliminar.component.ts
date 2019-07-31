@@ -1,54 +1,60 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
-import { FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
-import {AF} from "../../../../providers/af";
-import { DbService } from '../../../services/db.service'
-import {MessageService} from "../../../services/message.service";
+import { Component, OnInit, ElementRef } from "@angular/core";
+import { FirebaseListObservable, FirebaseObjectObservable } from "angularfire2";
+import { AF } from "../../../../providers/af";
+import { DbService } from "../../../services/db.service";
+import { MessageService } from "../../../services/message.service";
 
 @Component({
-  selector: 'app-paradas-eliminar',
-  templateUrl: './paradas-eliminar.component.html'
+  selector: "app-paradas-eliminar",
+  templateUrl: "./paradas-eliminar.component.html"
 })
 export class ParadasEliminarComponent implements OnInit {
+  stops$: FirebaseListObservable<any[]>;
+  stopToDeleteKey = "";
+  error: any = null;
 
-  stops$:FirebaseListObservable<any[]>
-  stopToDeleteKey:string = ''
-  error:any = null
-
-  constructor(private msgService:MessageService, private db:DbService, public afService:AF, private elRef:ElementRef) {
-  }
+  constructor(
+    private msgService: MessageService,
+    private db: DbService,
+    public afService: AF,
+    private elRef: ElementRef
+  ) {}
 
   ngOnInit() {
     this.db.getStopsList().subscribe(stops$ => {
       if (!stops$) {
-        this.stops$ = this.db.loadStopsList()
+        this.stops$ = this.db.loadStopsList();
       } else {
-        this.stops$ = stops$
+        this.stops$ = stops$;
       }
-    })
+    });
   }
 
   setStopToDeleteKey(stopToDeleteKey) {
-    this.stopToDeleteKey = stopToDeleteKey
+    this.stopToDeleteKey = stopToDeleteKey;
   }
 
   deleteStop() {
-    if (this.stopToDeleteKey !== '') {
-      this.afService.deleteStop(this.stopToDeleteKey).then(() => {
-        this.msgService.showSuccessMessage('Parada eliminada exitosamente!')
-      }).catch((error:any) => {
-        if (error) {
-          this.error = error;
-          console.error(this.error);
-          this.msgService.showErrorMessage('Error al eliminar la parada.')
-        }
-      })
+    if (this.stopToDeleteKey !== "") {
+      this.afService
+        .deleteStop(this.stopToDeleteKey)
+        .then(() => {
+          this.msgService.showSuccessMessage("Parada eliminada exitosamente!");
+        })
+        .catch((error: any) => {
+          if (error) {
+            this.error = error;
+            console.error(this.error);
+            this.msgService.showErrorMessage("Error al eliminar la parada.");
+          }
+        });
     }
   }
 
-  ngAfterViewInit() {
-    let classList = this.elRef.nativeElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.classList
-    classList.remove('other-tab')
-    classList.add('inicio-tab')
+  AfterViewInit() {
+    const classList = this.elRef.nativeElement.parentElement.parentElement
+      .parentElement.parentElement.parentElement.parentElement.classList;
+    classList.remove("other-tab");
+    classList.add("inicio-tab");
   }
-
 }

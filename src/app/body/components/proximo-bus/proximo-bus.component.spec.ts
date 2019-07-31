@@ -1,19 +1,18 @@
 /* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { By } from "@angular/platform-browser";
+import { DebugElement } from "@angular/core";
 
-import { ProximoBusComponent } from './proximo-bus.component';
+import { ProximoBusComponent } from "./proximo-bus.component";
 
-describe('ProximoBusComponent', () => {
+describe("ProximoBusComponent", () => {
   let component: ProximoBusComponent;
   let fixture: ComponentFixture<ProximoBusComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ProximoBusComponent ]
-    })
-    .compileComponents();
+      declarations: [ProximoBusComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -22,7 +21,7 @@ describe('ProximoBusComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

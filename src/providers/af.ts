@@ -1,12 +1,10 @@
-import {Injectable} from "@angular/core";
-import {AngularFire, AuthProviders, AuthMethods} from 'angularfire2';
-import { DatePipe } from '@angular/common';
+import { Injectable } from "@angular/core";
+import { AngularFire, AuthProviders, AuthMethods } from "angularfire2";
+import { DatePipe } from "@angular/common";
 
 @Injectable()
 export class AF {
-
-  constructor(public af:AngularFire) {
-  }
+  constructor(public af: AngularFire) {}
 
   /**
    * Logs in the user
@@ -15,7 +13,7 @@ export class AF {
   loginWithGoogle() {
     return this.af.auth.login({
       provider: AuthProviders.Google,
-      method: AuthMethods.Popup,
+      method: AuthMethods.Popup
     });
   }
 
@@ -46,9 +44,9 @@ export class AF {
    * @returns {firebase.Promise<void>}
    */
   saveUserInfoFromForm(uid, name, email) {
-    return this.af.database.object('registeredUsers/' + uid).set({
+    return this.af.database.object("registeredUsers/" + uid).set({
       name: name,
-      email: email,
+      email: email
     });
   }
 
@@ -59,14 +57,16 @@ export class AF {
    * @returns {firebase.Promise<FirebaseAuthState>}
    */
   loginWithEmail(email, password) {
-    return this.af.auth.login({
+    return this.af.auth.login(
+      {
         email: email,
-        password: password,
+        password: password
       },
       {
         provider: AuthProviders.Password,
-        method: AuthMethods.Password,
-      });
+        method: AuthMethods.Password
+      }
+    );
   }
 
   /**
@@ -76,14 +76,14 @@ export class AF {
    * @returns {firebase.Promise<void>}
    */
   addNewMessage(name, email, message) {
-    var datePipe = new DatePipe('es-BO');
+    const datePipe = new DatePipe("es-BO");
     return this.af.database.list(`mensajes`).push({
       nombre: name,
       email: email,
       mensaje: message,
       leido: false,
-      fecha: datePipe.transform(Date.now(), 'dd-MM-yyyy hh:mm:ss')
-    })
+      fecha: datePipe.transform(Date.now(), "dd-MM-yyyy hh:mm:ss")
+    });
   }
 
   /**
@@ -91,7 +91,7 @@ export class AF {
    * @returns {firebase.Promise<void>}
    */
   deleteStop(stop) {
-    return this.af.database.object(`paradas/${stop}`).remove()
+    return this.af.database.object(`paradas/${stop}`).remove();
   }
 
   /**
@@ -99,7 +99,7 @@ export class AF {
    * @returns {firebase.Promise<void>}
    */
   deleteRoute(route) {
-    return this.af.database.object(`rutas/${route}`).remove()
+    return this.af.database.object(`rutas/${route}`).remove();
   }
 
   /**
@@ -113,7 +113,7 @@ export class AF {
       nombre: name,
       lat: lat,
       lng: lng
-    })
+    });
   }
 
   /**
@@ -125,7 +125,7 @@ export class AF {
       nombre: stop.nombre,
       lat: stop.lat,
       lng: stop.lng
-    })
+    });
   }
 
   /**
@@ -135,31 +135,29 @@ export class AF {
    * @returns {firebase.Promise<void>}
    */
   modifyRoute(overlays, selectedRoute, selectedPositions) {
-    let routeStops = {}
-    let routeTraces = {}
-    let i
-    let j
+    const routeStops = {};
+    const routeTraces = {};
 
-    for (i = 0; i < selectedPositions.length; i += 1) {
-      routeStops[i] = selectedPositions[i].$key
+    for (let i = 0; i < selectedPositions.length; i += 1) {
+      routeStops[i] = selectedPositions[i].$key;
     }
-    for (i = 0; i < overlays.length; i += 1) {
-      routeTraces[i] = {}
-      j = 0
+    for (let i = 0; i < overlays.length; i += 1) {
+      routeTraces[i] = {};
+      let j = 0;
       overlays[i].getPath().forEach(path => {
         routeTraces[i][j] = {
           lat: path.lat(),
           lng: path.lng()
-        }
-        j += 1
-      })
+        };
+        j += 1;
+      });
     }
 
     return this.af.database.object(`rutas/${selectedRoute.$key}`).set({
       nombre: selectedRoute.name,
       paradas: routeStops,
       trazos: routeTraces
-    })
+    });
   }
 
   /**
@@ -168,32 +166,29 @@ export class AF {
    * @param {Array} selectedPositions
    * @returns {firebase.Promise<void>}
    */
-  createRoute (overlays, routeName, selectedPositions) {
-    let routeStops = {}
-    let routeTraces = {}
-    let i
-    let j
+  createRoute(overlays, routeName, selectedPositions) {
+    const routeStops = {};
+    const routeTraces = {};
 
-    for (i = 0; i < selectedPositions.length; i += 1) {
-      routeStops[i] = selectedPositions[i].$key
+    for (let i = 0; i < selectedPositions.length; i += 1) {
+      routeStops[i] = selectedPositions[i].$key;
     }
-    for (i = 0; i < overlays.length; i += 1) {
-      routeTraces[i] = {}
-      j = 0
+    for (let i = 0; i < overlays.length; i += 1) {
+      routeTraces[i] = {};
+      let j = 0;
       overlays[i].getPath().forEach(path => {
         routeTraces[i][j] = {
           lat: path.lat(),
           lng: path.lng()
-        }
-        j += 1
-      })
+        };
+        j += 1;
+      });
     }
 
     return this.af.database.list(`rutas`).push({
       nombre: routeName,
       paradas: routeStops,
       trazos: routeTraces
-    })
+    });
   }
-
 }

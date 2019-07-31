@@ -6,7 +6,9 @@
   .middle-tab {
     border-top: 1px solid #000;
   }
-  .contact-us-tab, .contactanos, .contact-us-title {
+  .contact-us-tab,
+  .contactanos,
+  .contact-us-title {
     display: none;
   }
 }
@@ -51,7 +53,8 @@
       height: 30px;
       font-size: 18px;
     }
-    .pk-input, input.pk-textarea {
+    .pk-input,
+    input.pk-textarea {
       min-width: 150px;
       width: 100%;
       max-width: 100%;
@@ -90,13 +93,13 @@
         margin-right: 10px;
       }
     }
-
   }
 
   .auth {
-    .contact-us-tab, .contactanos, .contact-us-title {
+    .contact-us-tab,
+    .contactanos,
+    .contact-us-title {
       display: block;
     }
   }
-
 }

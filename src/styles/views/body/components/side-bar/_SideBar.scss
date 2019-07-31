@@ -12,7 +12,7 @@
     color: #000;
     font-weight: 700;
     text-transform: uppercase;
-    background-color: #E5E5E5;
+    background-color: #e5e5e5;
     line-height: 40px;
     &.first-tab {
       border-top: 1px solid #000;
@@ -24,7 +24,8 @@
       margin-top: 10px;
       display: none;
       color: #fff;
-      background: URL('../../../../../assets/images/arrow-96-20.png') no-repeat #e4892d 10px;
+      background: URL("../../../../../assets/images/arrow-96-20.png") no-repeat
+        #e4892d 10px;
       padding-left: 40px;
     }
     &:hover {

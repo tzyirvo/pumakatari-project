@@ -1,19 +1,18 @@
 /* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { By } from "@angular/platform-browser";
+import { DebugElement } from "@angular/core";
 
-import { RutasModificarComponent } from './rutas-modificar.component';
+import { RutasModificarComponent } from "./rutas-modificar.component";
 
-describe('RutasModificarComponent', () => {
+describe("RutasModificarComponent", () => {
   let component: RutasModificarComponent;
   let fixture: ComponentFixture<RutasModificarComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RutasModificarComponent ]
-    })
-    .compileComponents();
+      declarations: [RutasModificarComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -22,7 +21,7 @@ describe('RutasModificarComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

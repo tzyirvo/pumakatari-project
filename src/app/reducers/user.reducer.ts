@@ -1,4 +1,4 @@
-import * as user from '../actions/user.action'
+import * as user from "../actions/user.action";
 
 export interface State {
   isUserLoggedIn: boolean;
@@ -6,10 +6,10 @@ export interface State {
   email: string;
 }
 
-const initialState:State = {
+const initialState: State = {
   isUserLoggedIn: false,
   isNotUserLoggedIn: true,
-  email: ''
+  email: ""
 };
 
 // @TODO: Hardcoding this only for testing purposes, this needs to be reverted
@@ -19,7 +19,7 @@ const initialState:State = {
 //  email: 'only-for-testing@admin.com'
 //};
 
-export function reducer(state = initialState, action:any):State {
+export function reducer(state = initialState, action: any): State {
   switch (action.type) {
     case user.ActionTypes.LOG_IN:
       return {
@@ -31,13 +31,13 @@ export function reducer(state = initialState, action:any):State {
       return {
         isUserLoggedIn: false,
         isNotUserLoggedIn: true,
-        email: ''
+        email: ""
       };
     default:
       return state;
   }
 }
 
-export const isUserLoggedIn = (state:State) => state.isUserLoggedIn;
-export const isNotUserLoggedIn = (state:State) => state.isNotUserLoggedIn;
-export const getUserEmail = (state:State) => state.email;
+export const isUserLoggedIn = (state: State) => state.isUserLoggedIn;
+export const isNotUserLoggedIn = (state: State) => state.isNotUserLoggedIn;
+export const getUserEmail = (state: State) => state.email;

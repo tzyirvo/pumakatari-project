@@ -1,4 +1,4 @@
-@import 'utils/Utils';
+@import "utils/Utils";
 @import "components/Buttons";
 @import "components/Field";
 @import "components/ComboBox";
@@ -27,5 +27,5 @@
 @import "views/body/components/side-bar/SideBar";
 
 body {
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
 }

@@ -1,19 +1,18 @@
 /* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { By } from "@angular/platform-browser";
+import { DebugElement } from "@angular/core";
 
-import { ParadaMasCercanaComponent } from './parada-mas-cercana.component';
+import { ParadaMasCercanaComponent } from "./parada-mas-cercana.component";
 
-describe('ParadaMasCercanaComponent', () => {
+describe("ParadaMasCercanaComponent", () => {
   let component: ParadaMasCercanaComponent;
   let fixture: ComponentFixture<ParadaMasCercanaComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ParadaMasCercanaComponent ]
-    })
-    .compileComponents();
+      declarations: [ParadaMasCercanaComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -22,7 +21,7 @@ describe('ParadaMasCercanaComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });
